@@ -1,10 +1,10 @@
 package Classes;
 
 public class Employee {
-    private String name;
-    private String address;
-    private int uniqueID;
-    String payment_type;
+    protected String name;
+    protected String address;
+    protected int uniqueID;
+    protected String payment_type;
 
     public void setAddress(String address) {
         this.address = address;

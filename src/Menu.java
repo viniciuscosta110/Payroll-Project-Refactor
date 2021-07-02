@@ -6,8 +6,6 @@ public class Menu {
   Scanner input = new Scanner(System.in);
   int employees_counter = 0;
   LinkedList<Employee> employees = new LinkedList<>();
-  LinkedList<Salaried> salarieds = new LinkedList<>();
-  LinkedList<Hourly> hourlies = new LinkedList<>();
 
   public void init()
   {
@@ -148,7 +146,6 @@ public class Menu {
     employee.setUniqueID(uniqueID);
 
     employees.add(employee);
-    hourlies.add(employee);
 
     System.out.println("\nFuncionário cadastrado!\n");
     System.out.println("\nPressione Enter para continuar");
@@ -200,13 +197,12 @@ public class Menu {
     
     employee.setAddress(address);
     employee.setName(name);
-    employee.setCommission(month_salary);
+    employee.setMonth_salary(month_salary);
     employee.setUniqueID(uniqueID);
     employee.setCommission(commission);
     employee.setPayment_type(payment_type);
 
     employees.add(employee);
-    salarieds.add(employee);
 
     System.out.println("\nFuncionário cadastrado!\n");
     System.out.println("\nPressione Enter para continuar");
@@ -219,7 +215,16 @@ public class Menu {
     if(employees.size() > 0)
     {
       for (Employee employee : employees) {
-        System.out.println(employee.printEmployee());
+        if(employee.getPayment_type() == "Assalariado" || employee.getPayment_type() == "Assalariado comissionado")
+        {
+          Salaried aux = (Salaried) employee;
+          System.out.println(aux.printEmployee());
+        }
+        else if(employee.getPayment_type() == "Horista")
+        {
+          Hourly aux = (Hourly) employee;
+          System.out.println(aux.printEmployee());
+        }
       }
       
       System.out.println("\nPressione Enter para continuar");
@@ -263,6 +268,8 @@ public class Menu {
     if(flag)
     {
       System.out.println("\nEsse funcionário não está cadastrado!\n");
+      System.out.println("\nPressione Enter para continuar");
+      input.nextLine();
     }
   }
 }
