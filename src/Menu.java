@@ -378,9 +378,7 @@ public class Menu {
 
     worked_day_time = departure_time - arrive_time;
 
-    timecard.setArrive_time(arrive_time);
-    timecard.setDeparture_time(departure_time);
-    timecard.setDate(date);
+    timecard = new TimeCard(arrive_time, departure_time, date);
     timecard.setWorked_day_time(worked_day_time);
 
     employee.setTimeCard(timecard);

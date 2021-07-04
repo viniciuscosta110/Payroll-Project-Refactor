@@ -14,15 +14,21 @@ public class Hourly extends Employee {
       return hour_salary;
   }
 
-  public void getWorked_week_time(TimeCard timeCard)
+  public void getWorked_time()
   {
-    timeCard.setWorked_week_time(timeCards);
+    for (TimeCard timeCard : timeCards) {
+      System.out.println("Data adicionada: " + timeCard.getDate());
+      System.out.println("Horas trabalhadas no dia: " + timeCard.getWorked_day_time() + "\n");
+    }
+
+    System.out.println("Horas trabalhadas na semana: " + timeCards.getLast().getWorked_week_time() + "\n");
   }
 
   public void setTimeCard(TimeCard timecard)
   {
-    getWorked_week_time(timecard);
     timeCards.add(timecard);
+    timeCards.peekLast().setWorked_week_time(timeCards);
+    getWorked_time();
   }
 
   public String printEmployee (){

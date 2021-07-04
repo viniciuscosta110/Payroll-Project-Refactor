@@ -49,7 +49,7 @@ public class TimeCard {
 
 		this.worked_week_time = worked_week_time;
 
-		System.out.println("Horas trabalhadas nessa semana: " + worked_day_time);
+		System.out.println("Horas trabalhadas nessa semana: " + worked_day_time + "\n");
 	}
 
 	public int getWorked_week_time() {
@@ -60,12 +60,19 @@ public class TimeCard {
 		this.date = date;
 	}
 
-	public String getData() {
+	public String getDate() {
 		return date;
 	}
 
+	public TimeCard(int arrive_time, int departure_time, String date)
+	{
+		this.arrive_time = arrive_time;
+		this.departure_time = departure_time;
+		this.date = date;
+	}
+
 	public TimeCard()
-  {
-      
-  }
+	{
+
+	}
 }
