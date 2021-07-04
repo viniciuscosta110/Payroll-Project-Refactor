@@ -21,14 +21,15 @@ public class Menu {
       System.out.println("[1] Adicionar Funcionário");
       System.out.println("[2] Remover Funcionário");
       System.out.println("[3] Listar Funcionários");
-      System.out.println("[4] Sair");
+      System.out.println("[4] Lançamento de ponto");
+      System.out.println("[5] Sair");
       
       String key_handler = input.nextLine();
       clear();
 
       int key = 0;
 
-      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '4')
+      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '5')
       {
         key = key_handler.charAt(0) - '0';
 
@@ -42,12 +43,17 @@ public class Menu {
             removeEmployee();
             clear();
             break;
+
           case 3:
             listEmployees();
             clear();
             break;
 
           case 4:
+            addTimeCard();
+            break;
+
+          case 5:
             input.close();
             System.exit(0);
             break;
@@ -84,7 +90,7 @@ public class Menu {
 
       int key = 0;
 
-      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '4')
+      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '3')
       {
         key = key_handler.charAt(0) - '0';
 
@@ -122,7 +128,7 @@ public class Menu {
     String name;
     String address;
     String payment_type = "Horista";
-    Double hour_salary = 0.0;
+    String hour_salary = "";
 
     int uniqueID = employees_counter + 1;
     employees_counter++;
@@ -135,13 +141,35 @@ public class Menu {
     System.out.print("Endereço: ");
     address = input.nextLine();
 
-    System.out.print("Salário por hora: ");
-    hour_salary = input.nextDouble();
-    input.nextLine();
+    while(true)
+    {
+      System.out.print("Salário por hora: ");
+      hour_salary = input.nextLine();
+
+      Boolean flag = true;
+      int len = hour_salary.length();
+
+      for (int i = 0; i < len; i++)
+      {
+        if(!(hour_salary.charAt(i) >= '0' && hour_salary.charAt(i) <= '9') || (hour_salary.charAt(i) <= '.') || (hour_salary.charAt(i) <= ','))
+        {
+          flag = false;
+          clear();
+          System.out.println("Digite um número.\n");
+
+          break;
+        }
+      }
+
+      if(flag)
+      {
+        break;
+      }
+    }
 
     employee.setName(name);
     employee.setAddress(address);
-    employee.setHour_salary(hour_salary);
+    employee.setHour_salary(Double.parseDouble(hour_salary));
     employee.setPayment_type(payment_type);
     employee.setUniqueID(uniqueID);
 
@@ -160,8 +188,8 @@ public class Menu {
     String address;
     String payment_type = "";
     String commissioned;
+    String month_salary;
     Double commission = 0.0;
-    Double month_salary = 0.0;
 
     int uniqueID = employees_counter + 1;
 
@@ -175,9 +203,31 @@ public class Menu {
     System.out.print("Endereço: ");
     address = input.nextLine();
 
-    System.out.print("Salário Mensal: ");
-    month_salary = input.nextDouble();
-    input.nextLine();
+    while(true)
+    {
+      System.out.print("Salário Mensal: ");
+      month_salary = input.nextLine();
+
+      Boolean flag = true;
+      int len = month_salary.length();
+
+      for (int i = 0; i < len; i++)
+      {
+        if(!(month_salary.charAt(i) >= '0' && month_salary.charAt(i) <= '9'))
+        {
+          flag = false;
+          clear();
+          System.out.println("Digite um número.\n");
+
+          break;
+        }
+      }
+
+      if(flag)
+      {
+        break;
+      }
+    }
 
     System.out.print("Comissionado (Digite Sim ou Não): ");
     commissioned = input.nextLine();
@@ -197,7 +247,7 @@ public class Menu {
     
     employee.setAddress(address);
     employee.setName(name);
-    employee.setMonth_salary(month_salary);
+    employee.setMonth_salary(Double.parseDouble(month_salary));
     employee.setUniqueID(uniqueID);
     employee.setCommission(commission);
     employee.setPayment_type(payment_type);
@@ -207,35 +257,6 @@ public class Menu {
     System.out.println("\nFuncionário cadastrado!\n");
     System.out.println("\nPressione Enter para continuar");
     input.nextLine();
-  }
-
-  private void listEmployees()
-  {
-    System.out.println("Lista de Funcionários\n");
-    if(employees.size() > 0)
-    {
-      for (Employee employee : employees) {
-        if(employee.getPayment_type() == "Assalariado" || employee.getPayment_type() == "Assalariado comissionado")
-        {
-          Salaried aux = (Salaried) employee;
-          System.out.println(aux.printEmployee());
-        }
-        else if(employee.getPayment_type() == "Horista")
-        {
-          Hourly aux = (Hourly) employee;
-          System.out.println(aux.printEmployee());
-        }
-      }
-      
-      System.out.println("\nPressione Enter para continuar");
-      input.nextLine();
-    }
-    else
-    {
-      System.out.println("\nLista Vazia\n");
-      System.out.println("\nPressione Enter para continuar");
-      input.nextLine();
-    }
   }
 
   private void removeEmployee()
@@ -271,5 +292,97 @@ public class Menu {
       System.out.println("\nPressione Enter para continuar");
       input.nextLine();
     }
+  }
+
+  private void listEmployees()
+  {
+    System.out.println("Lista de Funcionários\n");
+    if(employees.size() > 0)
+    {
+      for (Employee employee : employees) {
+        if(employee.getPayment_type() == "Assalariado" || employee.getPayment_type() == "Assalariado comissionado")
+        {
+          Salaried aux = (Salaried) employee;
+          System.out.println(aux.printEmployee());
+        }
+        else if(employee.getPayment_type() == "Horista")
+        {
+          Hourly aux = (Hourly) employee;
+          System.out.println(aux.printEmployee());
+        }
+      }
+      
+      System.out.println("\nPressione Enter para continuar");
+      input.nextLine();
+    }
+    else
+    {
+      System.out.println("\nLista Vazia\n");
+      System.out.println("\nPressione Enter para continuar");
+      input.nextLine();
+    }
+  }
+
+  private void addTimeCard()
+  {
+    Hourly employee = new Hourly();
+    TimeCard timecard = new TimeCard();
+
+    int arrive_time;
+    int departure_time;
+    int uniqueID;
+    int worked_day_time;
+    String date;
+
+    System.out.println("Insira o ID do funcionário\n\n");
+    uniqueID = input.nextInt();
+    input.nextLine();
+
+    Boolean flag = true;
+
+    for (Employee employee2 : employees)
+    {
+      if(employee2.getUniqueID() == uniqueID)
+      {
+        flag = false;
+      }
+    }
+
+    if(flag)
+    {
+      System.out.println("\nEsse funcionário não está cadastrado!\n");
+      System.out.println("\nPressione Enter para continuar");
+      input.nextLine();
+      return;
+    }
+
+    System.out.println("Data: (DD/MM/AA)");
+    date = input.nextLine();
+
+    System.out.println("Horário de entrada: (24h)");
+    arrive_time = input.nextInt();
+    input.nextLine();
+
+    System.out.println("Horário de saida: (24h)");
+    departure_time = input.nextInt();
+    input.nextLine();
+
+    for (Employee employee2 : employees)
+    {
+      if(employee2.getUniqueID() == uniqueID)
+      {
+        employee = (Hourly)(employee2);
+        break;
+      }
+    }
+
+    worked_day_time = departure_time - arrive_time;
+
+    timecard.setArrive_time(arrive_time);
+    timecard.setDeparture_time(departure_time);
+    timecard.setDate(date);
+    timecard.setWorked_day_time(worked_day_time);
+
+    employee.setTimeCard(timecard);
   }
 }
