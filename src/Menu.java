@@ -339,20 +339,35 @@ public class Menu {
     input.nextLine();
 
     Boolean flag = true;
+    Boolean hourly = true;
 
     for (Employee employee2 : employees)
     {
       if(employee2.getUniqueID() == uniqueID)
       {
-        flag = false;
+        if(employee2.getPayment_type() == "Horista")
+        {
+          flag = false;
+          hourly = false;
+        }
       }
     }
 
     if(flag)
     {
-      System.out.println("\nEsse funcionário não está cadastrado!\n");
-      System.out.println("\nPressione Enter para continuar");
-      input.nextLine();
+      if(hourly)
+      {
+        System.out.println("\nEsse funcionário não é horista!\n");
+        System.out.println("\nPressione Enter para continuar");
+        input.nextLine();
+      }
+      else
+      {
+        System.out.println("\nEsse funcionário não está cadastrado!\n");
+        System.out.println("\nPressione Enter para continuar");
+        input.nextLine();
+      }
+      
       return;
     }
 
