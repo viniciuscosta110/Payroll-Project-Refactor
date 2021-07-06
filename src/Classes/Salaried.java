@@ -1,8 +1,11 @@
 package Classes;
 
+import java.util.LinkedList;
+
 public class Salaried extends Employee {
   protected Double month_salary = 0.0;
   protected Double commission = 0.0;
+  LinkedList<Sale> sales = new LinkedList<>();
   
   public void setMonth_salary(Double month_salary) {
       this.month_salary = month_salary;
@@ -18,6 +21,17 @@ public class Salaried extends Employee {
 
   public Double getCommission() {
       return commission;
+  }
+
+  public void setSales(Sale sale) {
+    this.sales.add(sale);
+  }
+
+  public void getSales() {
+    for (Sale sale : sales) {
+      System.out.println("\nData: " + sale.getDate() +
+      "\nPreço: " + sale.getPrice() + "\n");
+    }
   }
 
   public String printEmployee (){

@@ -22,14 +22,15 @@ public class Menu {
       System.out.println("[2] Remover Funcionário");
       System.out.println("[3] Listar Funcionários");
       System.out.println("[4] Lançamento de ponto");
-      System.out.println("[5] Sair");
+      System.out.println("[5] Lançamento de vendas");
+      System.out.println("[6] Sair");
       
       String key_handler = input.nextLine();
       clear();
 
       int key = 0;
 
-      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '5')
+      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '6')
       {
         key = key_handler.charAt(0) - '0';
 
@@ -54,6 +55,10 @@ public class Menu {
             break;
 
           case 5:
+            addSale();
+            break;
+
+          case 6:
             input.close();
             System.exit(0);
             break;
@@ -397,5 +402,69 @@ public class Menu {
     timecard.setWorked_day_time(worked_day_time);
 
     employee.setTimeCard(timecard);
+  }
+
+  private void addSale()
+  {
+    int uniqueID;
+    Salaried employee = new Salaried();
+    String date;
+    Double price;
+    Sale sale = new Sale();
+
+    System.out.println("Insira o ID do funcionário\n\n");
+    uniqueID = input.nextInt();
+    input.nextLine();
+
+    Boolean flag = true;
+    Boolean salaried = true;
+
+    for (Employee employee2 : employees)
+    {
+      if(employee2.getUniqueID() == uniqueID)
+      {
+        if(employee2.getPayment_type() == "Assalariado" || employee2.getPayment_type() == "Assalariado comissionado")
+        {
+          flag = false;
+          salaried = false;
+          employee = (Salaried) employee2;
+        }
+      }
+    }
+
+    if(flag)
+    {
+      if(salaried)
+      {
+        System.out.println("\nEsse funcionário não é Assalariado!\n");
+        System.out.println("\nPressione Enter para continuar");
+        input.nextLine();
+      }
+      else
+      {
+        System.out.println("\nEsse funcionário não está cadastrado!\n");
+        System.out.println("\nPressione Enter para continuar");
+        input.nextLine();
+      }
+      
+      return;
+    }
+
+    System.out.print("\nData: ");
+    date = input.nextLine();
+
+    System.out.print("Preço: ");
+    price = input.nextDouble();
+
+    sale.setDate(date);
+    sale.setPrice(price);
+
+    employee.setSales(sale);
+
+    employee.getSales();
+
+    System.out.println("\nVenda cadastrado com sucesso!\n");
+    System.out.println("\nPressione Enter para continuar");
+    input.nextLine();
   }
 }
