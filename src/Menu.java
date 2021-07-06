@@ -5,7 +5,9 @@ public class Menu {
 
   Scanner input = new Scanner(System.in);
   int employees_counter = 0;
+  int syndicates_counter = -1;
   LinkedList<Employee> employees = new LinkedList<>();
+  LinkedList<Syndicate> syndicates = new LinkedList<>();
 
   public void init()
   {
@@ -23,14 +25,15 @@ public class Menu {
       System.out.println("[3] Listar Funcionários");
       System.out.println("[4] Lançamento de ponto");
       System.out.println("[5] Lançamento de vendas");
-      System.out.println("[6] Sair");
+      System.out.println("[6] Lançar taxa de serviço");
+      System.out.println("[7] Sair");
       
       String key_handler = input.nextLine();
       clear();
 
       int key = 0;
 
-      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '6')
+      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '7')
       {
         key = key_handler.charAt(0) - '0';
 
@@ -59,6 +62,10 @@ public class Menu {
             break;
 
           case 6:
+            addFee();
+            break;
+
+          case 7:
             input.close();
             System.exit(0);
             break;
@@ -109,6 +116,7 @@ public class Menu {
             addSalaried();
             clear();
             break;
+
           case 3:
             clear();
             return;
@@ -172,6 +180,8 @@ public class Menu {
       }
     }
 
+    isSyndicate(uniqueID);
+
     employee.setName(name);
     employee.setAddress(address);
     employee.setHour_salary(Double.parseDouble(hour_salary));
@@ -234,7 +244,7 @@ public class Menu {
       }
     }
 
-    System.out.print("Comissionado (Digite Sim ou Não): ");
+    System.out.print("Comissionado (Digite Sim ou Nao): ");
     commissioned = input.nextLine();
 
     if(commissioned.toLowerCase().equals("sim"))
@@ -249,6 +259,8 @@ public class Menu {
     {
       payment_type = "Assalariado";
     }
+
+    isSyndicate(uniqueID);
     
     employee.setAddress(address);
     employee.setName(name);
@@ -463,8 +475,66 @@ public class Menu {
 
     employee.getSales();
 
-    System.out.println("\nVenda cadastrado com sucesso!\n");
+    System.out.println("\nVenda cadastrada com sucesso!\n");
     System.out.println("\nPressione Enter para continuar");
     input.nextLine();
+  }
+
+  private void addFee()
+  {
+    int uniqueID;
+    Double service_fee;
+
+    System.out.println("\nInsira o ID do funcionário\n");
+    uniqueID = input.nextInt();
+    input.nextLine();
+
+    for (Syndicate syndicate : syndicates) 
+    {
+      if(syndicate.getEmployeeId() == uniqueID)
+      {
+        System.out.println("\nDigite a taxa cobrada pelo serviço (R$): ");
+        service_fee = input.nextDouble();
+        input.nextLine();
+
+        syndicate.setService_fee(service_fee);;
+
+        for (Syndicate syndicate3 : syndicates) {
+          System.out.println(syndicate3.printSyndicate());
+        }
+
+        System.out.println("\nTaxa cadastrada com sucesso!\n");
+        System.out.println("\nPressione Enter para continuar");
+        input.nextLine();
+        break;
+      }
+    }
+  }
+
+  private void isSyndicate(int uniqueID)
+  {
+    Syndicate syndicate = new Syndicate();
+    String inSyndicate;
+    Double syndicate_fee = 0.0;
+
+    System.out.print("\nEstá no sindicato (Digite Sim ou Nao): ");
+    inSyndicate = input.nextLine();
+
+    if(inSyndicate.toLowerCase().equals("sim"))
+    {
+      int syndicate_id = syndicates_counter + 1;
+
+      syndicates_counter++;
+
+      System.out.print("Taxa sindical: ");
+      syndicate_fee = input.nextDouble();
+      input.nextLine();
+
+      syndicate.setSyndicate_id(syndicate_id);
+      syndicate.setSyndicate_fee(syndicate_fee);
+      syndicate.setEmployeeId(uniqueID);
+
+      syndicates.add(syndicate);
+    }
   }
 }
