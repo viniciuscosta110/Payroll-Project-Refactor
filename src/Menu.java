@@ -5,7 +5,9 @@ public class Menu {
 
   Scanner input = new Scanner(System.in);
   int employees_counter = 0;
+  int syndicates_counter = -1;
   LinkedList<Employee> employees = new LinkedList<>();
+  LinkedList<Syndicate> syndicates = new LinkedList<>();
 
   public void init()
   {
@@ -22,14 +24,17 @@ public class Menu {
       System.out.println("[2] Remover Funcionário");
       System.out.println("[3] Listar Funcionários");
       System.out.println("[4] Lançamento de ponto");
-      System.out.println("[5] Sair");
+      System.out.println("[5] Lançamento de vendas");
+      System.out.println("[6] Lançar taxa de serviço");
+      System.out.println("[7] Alterar dados do funcionário");
+      System.out.println("[8] Sair");
       
       String key_handler = input.nextLine();
       clear();
 
       int key = 0;
 
-      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '5')
+      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '8')
       {
         key = key_handler.charAt(0) - '0';
 
@@ -51,9 +56,25 @@ public class Menu {
 
           case 4:
             addTimeCard();
+            clear();
             break;
 
           case 5:
+            addSale();
+            clear();
+            break;
+
+          case 6:
+            addFee();
+            clear();
+            break;
+
+          case 7:
+            changeEmployee();
+            clear();
+            break;
+
+          case 8:
             input.close();
             System.exit(0);
             break;
@@ -104,6 +125,7 @@ public class Menu {
             addSalaried();
             clear();
             break;
+
           case 3:
             clear();
             return;
@@ -128,6 +150,7 @@ public class Menu {
     String name;
     String address;
     String payment_type = "Horista";
+    int payment_way;
     String hour_salary = "";
 
     int uniqueID = employees_counter + 1;
@@ -140,6 +163,29 @@ public class Menu {
 
     System.out.print("Endereço: ");
     address = input.nextLine();
+
+    System.out.println("Método de pagamento: ");
+    System.out.println("[1] Correios");
+    System.out.println("[2] Em mãos");
+    System.out.println("[3] Depósito");
+    payment_way = input.nextInt();
+    input.nextLine();
+
+    switch (payment_way) {
+      case 1:
+        employee.setPayment_way("Correios");
+        break;
+      case 2:
+        employee.setPayment_way("Em mãos");
+        break;
+
+      case 3:
+        employee.setPayment_way("Depósito");
+        break;
+
+      default:
+        break;
+    }
 
     while(true)
     {
@@ -167,6 +213,8 @@ public class Menu {
       }
     }
 
+    isSyndicate(uniqueID);
+
     employee.setName(name);
     employee.setAddress(address);
     employee.setHour_salary(Double.parseDouble(hour_salary));
@@ -187,6 +235,7 @@ public class Menu {
     String name;
     String address;
     String payment_type = "";
+    int payment_way;
     String commissioned;
     String month_salary;
     Double commission = 0.0;
@@ -202,6 +251,29 @@ public class Menu {
 
     System.out.print("Endereço: ");
     address = input.nextLine();
+
+    System.out.println("Método de pagamento: ");
+    System.out.println("[1] Correios");
+    System.out.println("[2] Em mãos");
+    System.out.println("[3] Depósito");
+    payment_way = input.nextInt();
+    input.nextLine();
+
+    switch (payment_way) {
+      case 1:
+        employee.setPayment_way("Correios");
+        break;
+      case 2:
+        employee.setPayment_way("Em mãos");
+        break;
+
+      case 3:
+        employee.setPayment_way("Depósito");
+        break;
+
+      default:
+        break;
+    }
 
     while(true)
     {
@@ -229,7 +301,7 @@ public class Menu {
       }
     }
 
-    System.out.print("Comissionado (Digite Sim ou Não): ");
+    System.out.print("Comissionado (Digite Sim ou Nao): ");
     commissioned = input.nextLine();
 
     if(commissioned.toLowerCase().equals("sim"))
@@ -244,6 +316,8 @@ public class Menu {
     {
       payment_type = "Assalariado";
     }
+
+    isSyndicate(uniqueID);
     
     employee.setAddress(address);
     employee.setName(name);
@@ -397,5 +471,298 @@ public class Menu {
     timecard.setWorked_day_time(worked_day_time);
 
     employee.setTimeCard(timecard);
+  }
+
+  private void addSale()
+  {
+    int uniqueID;
+    Salaried employee = new Salaried();
+    String date;
+    Double price;
+    Sale sale = new Sale();
+
+    System.out.println("Insira o ID do funcionário\n\n");
+    uniqueID = input.nextInt();
+    input.nextLine();
+
+    Boolean flag = true;
+    Boolean salaried = true;
+
+    for (Employee employee2 : employees)
+    {
+      if(employee2.getUniqueID() == uniqueID)
+      {
+        if(employee2.getPayment_type() == "Assalariado" || employee2.getPayment_type() == "Assalariado comissionado")
+        {
+          flag = false;
+          salaried = false;
+          employee = (Salaried) employee2;
+        }
+      }
+    }
+
+    if(flag)
+    {
+      if(salaried)
+      {
+        System.out.println("\nEsse funcionário não é Assalariado!\n");
+        System.out.println("\nPressione Enter para continuar");
+        input.nextLine();
+      }
+      else
+      {
+        System.out.println("\nEsse funcionário não está cadastrado!\n");
+        System.out.println("\nPressione Enter para continuar");
+        input.nextLine();
+      }
+      
+      return;
+    }
+
+    System.out.print("\nData: ");
+    date = input.nextLine();
+
+    System.out.print("Preço: ");
+    price = input.nextDouble();
+
+    sale.setDate(date);
+    sale.setPrice(price);
+
+    employee.setSales(sale);
+
+    employee.getSales();
+
+    System.out.println("\nVenda cadastrada com sucesso!\n");
+    System.out.println("\nPressione Enter para continuar");
+    input.nextLine();
+  }
+
+  private void addFee()
+  {
+    int uniqueID;
+    Double service_fee;
+
+    System.out.println("\nInsira o ID do funcionário\n");
+    uniqueID = input.nextInt();
+    input.nextLine();
+
+    for (Syndicate syndicate : syndicates) 
+    {
+      if(syndicate.getEmployeeId() == uniqueID)
+      {
+        System.out.println("\nDigite a taxa cobrada pelo serviço (R$): ");
+        service_fee = input.nextDouble();
+        input.nextLine();
+
+        syndicate.setService_fee(service_fee);;
+
+        for (Syndicate syndicate3 : syndicates) {
+          System.out.println(syndicate3.printSyndicate());
+        }
+
+        System.out.println("\nTaxa cadastrada com sucesso!\n");
+        System.out.println("\nPressione Enter para continuar");
+        input.nextLine();
+        break;
+      }
+    }
+  }
+
+  private void isSyndicate(int uniqueID)
+  {
+    Syndicate syndicate = new Syndicate();
+    String inSyndicate;
+    Double syndicate_fee = 0.0;
+
+    System.out.print("\nEstá no sindicato (Digite Sim ou Nao): ");
+    inSyndicate = input.nextLine();
+
+    if(inSyndicate.toLowerCase().equals("sim"))
+    {
+      int syndicate_id = syndicates_counter + 1;
+
+      syndicates_counter++;
+
+      System.out.print("Taxa sindical: ");
+      syndicate_fee = input.nextDouble();
+      input.nextLine();
+
+      syndicate.setSyndicate_id(syndicate_id);
+      syndicate.setSyndicate_fee(syndicate_fee);
+      syndicate.setEmployeeId(uniqueID);
+
+      syndicates.add(syndicate);
+    }
+  }
+
+  private void changeEmployee()
+  {
+    int uniqueID;
+
+    System.out.println("\nInsira o ID do funcionário\n");
+    uniqueID = input.nextInt();
+    input.nextLine();
+
+    for (Employee employee : employees) {
+      if(employee.getUniqueID() == uniqueID)
+      {
+        changeData(employee);
+      }
+    }
+  }
+
+  private void changeData(Employee employee)
+  {
+    int change;
+    String text;
+    int num;
+
+    System.out.print("\nSelecione o que você quer alterar:\n");
+    System.out.println("[1] Alterar nome");
+    System.out.println("[2] Alterar endereço");
+    System.out.println("[3] Alterar tipo de remuneração");
+    System.out.println("[4] Alterar método de pagamento");
+    System.out.println("[5] Alterar situação sindical");
+    
+    change = input.nextInt();
+    input.nextLine();
+
+    switch (change) {
+      case 1:
+        System.out.println("\nNome atual: " + employee.getName());
+        System.out.println("Novo nome: ");
+        text = input.nextLine();
+
+        employee.setName(text);
+
+        System.out.println("\nNome alterado com sucesso!");
+        System.out.println("Pressione enter para continuar!");
+        input.nextLine();
+        break;
+      
+      case 2:
+        System.out.println("\nEndereço atual: " + employee.getAddress());
+        System.out.println("Novo endereço: ");
+        text = input.nextLine();
+        break;
+
+      case 3:
+        System.out.println("\nTipo de remuneração atual: " + employee.getPayment_type());
+        System.out.println("Selecione um novo tipo de remuneração: ");
+        System.out.println("[1] Assalariado");
+        System.out.println("[2] Horista");
+        num = input.nextInt();
+        input.nextLine();
+
+        switch (num) {
+          case 1:
+            if(employee.getPayment_type() == "Horista")
+            {
+              Salaried salaried = new Salaried();
+              String commissioned;
+              Double commission = 0.0;
+              String payment_type;
+
+              System.out.print("Salário Mensal: ");
+              Double month_salary = input.nextDouble();
+              input.nextLine();
+
+              System.out.print("Comissionado (Digite Sim ou Nao): ");
+              commissioned = input.nextLine();
+          
+              if(commissioned.toLowerCase().equals("sim"))
+              {
+                System.out.print("Comissão (Digite um número para representar a porcentagem): ");
+                commission = input.nextDouble();
+                input.nextLine();
+          
+                payment_type = "Assalariado comissionado";
+              }
+              else
+              {
+                payment_type = "Assalariado";
+              }
+              salaried.setAddress(employee.getAddress());
+              salaried.setName(employee.getName());
+              salaried.setPayment_way(employee.getPayment_way());
+              salaried.setMonth_salary(month_salary);
+              salaried.setCommission(commission);
+              salaried.setPayment_type(payment_type);
+
+              employees.remove(employee);
+              employees.add(salaried);
+            }
+            else
+            {
+              System.out.println("Esse funcionário já é horista!");
+              System.out.println("Pressione Enter para continuar");
+              input.nextLine();
+            }
+            break;
+
+          case 2:
+            if(employee.getPayment_type() != "Horista")
+            {
+              Hourly hourly = new Hourly();
+              String payment_type = "Horista";
+
+              System.out.print("Salário por hora: ");
+              Double hour_salary = input.nextDouble();
+              input.nextLine();
+
+              hourly.setAddress(employee.getAddress());
+              hourly.setName(employee.getName());
+              hourly.setPayment_way(employee.getPayment_way());
+              hourly.setHour_salary(hour_salary);
+              hourly.setPayment_type(payment_type);
+
+              employees.remove(employee);
+              employees.add(hourly);
+            }
+            else
+            {
+              System.out.println("Esse funcionário já é assalariado!");
+              System.out.println("Pressione Enter para continuar");
+              input.nextLine();
+            }
+            break;
+
+          default:
+            break;
+        }
+        break;
+
+      case 4:
+        System.out.println("\nMétodo de pagamento atual: " + employee.getPayment_way());
+        System.out.println("\nSelecione um novo método de pagamento: ");
+        System.out.println("[1] Correios");
+        System.out.println("[2] Em mãos");
+        System.out.println("[3] Depósito");
+        num = input.nextInt();
+        input.nextLine();
+
+        switch (num) 
+        {
+          case 1:
+            employee.setPayment_way("Correios");
+            break;
+          case 2:
+            employee.setPayment_way("Em mãos");
+            break;
+
+          case 3:
+            employee.setPayment_way("Depósito");
+            break;
+
+          default:
+            break;
+        }
+        break;
+
+        case 5:
+          break;
+      default:
+        break;
+    }
   }
 }

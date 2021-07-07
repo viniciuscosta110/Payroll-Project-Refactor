@@ -6,11 +6,13 @@ public class Hourly extends Employee {
   LinkedList<TimeCard> timeCards = new LinkedList<>();
   protected Double hour_salary;
 
-  public void setHour_salary(Double hour_salary) {
+  public void setHour_salary(Double hour_salary) 
+  {
       this.hour_salary = hour_salary;
   }
 
-  public Double getHour_salary() {
+  public Double getHour_salary() 
+  {
       return hour_salary;
   }
 
@@ -31,11 +33,13 @@ public class Hourly extends Employee {
     getWorked_time();
   }
 
-  public String printEmployee (){
+  public String printEmployee ()
+  {
       return "\nNome: " + this.name +
       "\nEndereço: " + this.address +
       "\nTipo de pagamento: " + this.payment_type +
-      "\nID: " + this.uniqueID +
-      "\nSalário por hora: " + this.hour_salary;
+      "\nVia de pagamento: " + this.payment_way +
+      "\nSalário por hora: " + this.hour_salary +
+      "\nID: " + this.uniqueID + "\n";
   }
 }
