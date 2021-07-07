@@ -38,7 +38,8 @@ public class Hourly extends Employee {
       return "\nNome: " + this.name +
       "\nEndereço: " + this.address +
       "\nTipo de pagamento: " + this.payment_type +
-      "\nID: " + this.uniqueID +
-      "\nSalário por hora: " + this.hour_salary;
+      "\nVia de pagamento: " + this.payment_way +
+      "\nSalário por hora: " + this.hour_salary +
+      "\nID: " + this.uniqueID + "\n";
   }
 }

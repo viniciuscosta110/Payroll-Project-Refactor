@@ -47,8 +47,9 @@ public class Salaried extends Employee
       return "\nNome: " + this.name +
       "\nEndereço: " + this.address +
       "\nTipo de pagamento: " + this.payment_type +
-      "\nID: " + this.uniqueID +
+      "\nVia de pagamento: " + this.payment_way +
       "\nSalário por mês: " + this.month_salary +
-      "\nComissão (em %): " + this.commission;
+      "\nComissão (em %): " + this.commission + "\n" +
+      "\nID: " + this.uniqueID;
   }
 }
