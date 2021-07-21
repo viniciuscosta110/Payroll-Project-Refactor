@@ -9,15 +9,13 @@ public class Menu {
   LinkedList<Employee> employees = new LinkedList<>();
   LinkedList<Syndicate> syndicates = new LinkedList<>();
 
-  public void init()
-  {
+  public void init() {
     Scanner input = new Scanner(System.in);
 
     System.out.println("--------------------------------------------");
     System.out.println("Bem Vindo ao sistema de Gerencimento da Loja");
 
-    while(true)
-    {
+    while(true) {
       System.out.println("Selecione uma opção para acessá-la.\n");
 
       System.out.println("[1] Adicionar Funcionário");
@@ -34,8 +32,7 @@ public class Menu {
 
       int key = 0;
 
-      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '8')
-      {
+      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '8') {
         key = key_handler.charAt(0) - '0';
 
         switch (key) {
@@ -83,15 +80,13 @@ public class Menu {
             break;
         }
       }
-      else
-      {
+      else {
         System.out.println("Digite uma opção válida.\n");
       }
     }
   }
 
-  private void clear()
-  {
+  private void clear() {
     for (int i = 0; i < 20; i++) {
         System.out.println('\n');
     }
@@ -99,8 +94,7 @@ public class Menu {
 
   private void addEmployee()
   {
-    while(true)
-    {
+    while(true) {
       System.out.println("Selecione uma opção para acessá-la.\n");
       System.out.println("[1] Funcionário Horista");
       System.out.println("[2] Funcionário Assalariado");
@@ -111,8 +105,7 @@ public class Menu {
 
       int key = 0;
 
-      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '3')
-      {
+      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '3') {
         key = key_handler.charAt(0) - '0';
 
         switch (key) {
@@ -136,15 +129,13 @@ public class Menu {
 
         break;
       }
-      else
-      {
+      else {
         System.out.println("Digite uma opção válida.\n");
       }
     }
   }
 
-  private void addHourly()
-  {
+  private void addHourly() {
     Hourly employee = new Hourly();
     
     String name;
@@ -187,18 +178,15 @@ public class Menu {
         break;
     }
 
-    while(true)
-    {
-      System.out.print("Salário por hora: ");
+    while(true) {
+      System.out.print("\nSalário por hora: ");
       hour_salary = input.nextLine();
 
       Boolean flag = true;
       int len = hour_salary.length();
 
-      for (int i = 0; i < len; i++)
-      {
-        if(!(hour_salary.charAt(i) >= '0' && hour_salary.charAt(i) <= '9') || (hour_salary.charAt(i) <= '.') || (hour_salary.charAt(i) <= ','))
-        {
+      for (int i = 0; i < len; i++) {
+        if(!(hour_salary.charAt(i) >= '0' && hour_salary.charAt(i) <= '9') || (hour_salary.charAt(i) <= '.') || (hour_salary.charAt(i) <= ',')) {
           flag = false;
           clear();
           System.out.println("Digite um número.\n");
@@ -207,13 +195,12 @@ public class Menu {
         }
       }
 
-      if(flag)
-      {
+      if(flag) {
         break;
       }
     }
 
-    isSyndicate(uniqueID);
+    isSyndicate(uniqueID, true);
 
     employee.setName(name);
     employee.setAddress(address);
@@ -228,8 +215,7 @@ public class Menu {
     input.nextLine();
   }
 
-  private void addSalaried()
-  {
+  private void addSalaried() {
     Salaried employee = new Salaried();
     
     String name;
@@ -275,18 +261,15 @@ public class Menu {
         break;
     }
 
-    while(true)
-    {
+    while(true) {
       System.out.print("Salário Mensal: ");
       month_salary = input.nextLine();
 
       Boolean flag = true;
       int len = month_salary.length();
 
-      for (int i = 0; i < len; i++)
-      {
-        if(!(month_salary.charAt(i) >= '0' && month_salary.charAt(i) <= '9'))
-        {
+      for (int i = 0; i < len; i++) {
+        if(!(month_salary.charAt(i) >= '0' && month_salary.charAt(i) <= '9')) {
           flag = false;
           clear();
           System.out.println("Digite um número.\n");
@@ -295,8 +278,7 @@ public class Menu {
         }
       }
 
-      if(flag)
-      {
+      if(flag) {
         break;
       }
     }
@@ -304,20 +286,18 @@ public class Menu {
     System.out.print("Comissionado (Digite Sim ou Nao): ");
     commissioned = input.nextLine();
 
-    if(commissioned.toLowerCase().equals("sim"))
-    {
+    if(commissioned.toLowerCase().equals("sim")) {
       System.out.print("Comissão (Digite um número para representar a porcentagem): ");
       commission = input.nextDouble();
       input.nextLine();
 
       payment_type = "Assalariado comissionado";
     }
-    else
-    {
+    else {
       payment_type = "Assalariado";
     }
 
-    isSyndicate(uniqueID);
+    isSyndicate(uniqueID, true);
     
     employee.setAddress(address);
     employee.setName(name);
@@ -333,8 +313,7 @@ public class Menu {
     input.nextLine();
   }
 
-  private void removeEmployee()
-  {
+  private void removeEmployee() {
     int id;
     boolean flag = true;
 
@@ -344,10 +323,8 @@ public class Menu {
     id = input.nextInt();
     input.nextLine();
 
-    for (Employee employee : employees) 
-    {
-      if(employee.getUniqueID() == id)
-      {
+    for (Employee employee : employees) {
+      if(employee.getUniqueID() == id) {
         flag = false;
         employees.remove(employee);
 
@@ -360,27 +337,23 @@ public class Menu {
       }
     }
 
-    if(flag)
-    {
+    if(flag) {
       System.out.println("\nEsse funcionário não está cadastrado!\n");
       System.out.println("\nPressione Enter para continuar");
       input.nextLine();
     }
   }
 
-  private void listEmployees()
-  {
+  private void listEmployees() {
     System.out.println("Lista de Funcionários\n");
-    if(employees.size() > 0)
-    {
+
+    if(employees.size() > 0) {
       for (Employee employee : employees) {
-        if(employee.getPayment_type() == "Assalariado" || employee.getPayment_type() == "Assalariado comissionado")
-        {
+        if(employee.getPayment_type() == "Assalariado" || employee.getPayment_type() == "Assalariado comissionado") {
           Salaried aux = (Salaried) employee;
           System.out.println(aux.printEmployee());
         }
-        else if(employee.getPayment_type() == "Horista")
-        {
+        else if(employee.getPayment_type() == "Horista") {
           Hourly aux = (Hourly) employee;
           System.out.println(aux.printEmployee());
         }
@@ -389,16 +362,14 @@ public class Menu {
       System.out.println("\nPressione Enter para continuar");
       input.nextLine();
     }
-    else
-    {
+    else {
       System.out.println("\nLista Vazia\n");
       System.out.println("\nPressione Enter para continuar");
       input.nextLine();
     }
   }
 
-  private void addTimeCard()
-  {
+  private void addTimeCard() {
     Hourly employee = new Hourly();
     TimeCard timecard = new TimeCard();
 
@@ -415,28 +386,22 @@ public class Menu {
     Boolean flag = true;
     Boolean hourly = true;
 
-    for (Employee employee2 : employees)
-    {
-      if(employee2.getUniqueID() == uniqueID)
-      {
-        if(employee2.getPayment_type() == "Horista")
-        {
+    for (Employee employee2 : employees) {
+      if(employee2.getUniqueID() == uniqueID) {
+        if(employee2.getPayment_type() == "Horista") {
           flag = false;
           hourly = false;
         }
       }
     }
 
-    if(flag)
-    {
-      if(hourly)
-      {
+    if(flag) {
+      if(hourly) {
         System.out.println("\nEsse funcionário não é horista!\n");
         System.out.println("\nPressione Enter para continuar");
         input.nextLine();
       }
-      else
-      {
+      else {
         System.out.println("\nEsse funcionário não está cadastrado!\n");
         System.out.println("\nPressione Enter para continuar");
         input.nextLine();
@@ -456,10 +421,8 @@ public class Menu {
     departure_time = input.nextInt();
     input.nextLine();
 
-    for (Employee employee2 : employees)
-    {
-      if(employee2.getUniqueID() == uniqueID)
-      {
+    for (Employee employee2 : employees) {
+      if(employee2.getUniqueID() == uniqueID) {
         employee = (Hourly)(employee2);
         break;
       }
@@ -473,8 +436,7 @@ public class Menu {
     employee.setTimeCard(timecard);
   }
 
-  private void addSale()
-  {
+  private void addSale() {
     int uniqueID;
     Salaried employee = new Salaried();
     String date;
@@ -488,12 +450,9 @@ public class Menu {
     Boolean flag = true;
     Boolean salaried = true;
 
-    for (Employee employee2 : employees)
-    {
-      if(employee2.getUniqueID() == uniqueID)
-      {
-        if(employee2.getPayment_type() == "Assalariado" || employee2.getPayment_type() == "Assalariado comissionado")
-        {
+    for (Employee employee2 : employees) {
+      if(employee2.getUniqueID() == uniqueID) {
+        if(employee2.getPayment_type() == "Assalariado" || employee2.getPayment_type() == "Assalariado comissionado") {
           flag = false;
           salaried = false;
           employee = (Salaried) employee2;
@@ -501,16 +460,13 @@ public class Menu {
       }
     }
 
-    if(flag)
-    {
-      if(salaried)
-      {
+    if(flag) {
+      if(salaried) {
         System.out.println("\nEsse funcionário não é Assalariado!\n");
         System.out.println("\nPressione Enter para continuar");
         input.nextLine();
       }
-      else
-      {
+      else {
         System.out.println("\nEsse funcionário não está cadastrado!\n");
         System.out.println("\nPressione Enter para continuar");
         input.nextLine();
@@ -537,8 +493,7 @@ public class Menu {
     input.nextLine();
   }
 
-  private void addFee()
-  {
+  private void addFee() {
     int uniqueID;
     Double service_fee;
 
@@ -546,10 +501,8 @@ public class Menu {
     uniqueID = input.nextInt();
     input.nextLine();
 
-    for (Syndicate syndicate : syndicates) 
-    {
-      if(syndicate.getEmployeeId() == uniqueID)
-      {
+    for (Syndicate syndicate : syndicates) {
+      if(syndicate.getEmployeeId() == uniqueID) {
         System.out.println("\nDigite a taxa cobrada pelo serviço (R$): ");
         service_fee = input.nextDouble();
         input.nextLine();
@@ -568,14 +521,19 @@ public class Menu {
     }
   }
 
-  private void isSyndicate(int uniqueID)
-  {
+  private void isSyndicate(int uniqueID, Boolean flag) {
     Syndicate syndicate = new Syndicate();
     String inSyndicate;
     Double syndicate_fee = 0.0;
 
-    System.out.print("\nEstá no sindicato (Digite Sim ou Nao): ");
-    inSyndicate = input.nextLine();
+    if(flag) {
+      System.out.print("\nEstá no sindicato (Digite Sim ou Nao): ");
+      inSyndicate = input.nextLine();
+    }
+    else {
+      inSyndicate = "sim";
+    }
+    
 
     if(inSyndicate.toLowerCase().equals("sim"))
     {
@@ -593,26 +551,38 @@ public class Menu {
 
       syndicates.add(syndicate);
     }
+
+    if(!flag)
+    {
+      System.out.println("\nBem-vindo ao sindicato!\n");
+      System.out.println("\nPressione Enter para continuar");
+      input.nextLine();
+    }
   }
 
-  private void changeEmployee()
-  {
+  private void changeEmployee() {
     int uniqueID;
-
+    Boolean flag = true;
     System.out.println("\nInsira o ID do funcionário\n");
     uniqueID = input.nextInt();
     input.nextLine();
 
     for (Employee employee : employees) {
-      if(employee.getUniqueID() == uniqueID)
-      {
+      if(employee.getUniqueID() == uniqueID) {
         changeData(employee);
+        flag = false;
       }
+    }
+
+    if(flag)
+    {
+      System.out.println("\nEsse funcionário não existe.\n");
+      System.out.println("\nPressione Enter para continuar");
+      input.nextLine();
     }
   }
 
-  private void changeData(Employee employee)
-  {
+  private void changeData(Employee employee) {
     int change;
     String text;
     int num;
@@ -623,6 +593,7 @@ public class Menu {
     System.out.println("[3] Alterar tipo de remuneração");
     System.out.println("[4] Alterar método de pagamento");
     System.out.println("[5] Alterar situação sindical");
+    System.out.println("[6] Voltar");
     
     change = input.nextInt();
     input.nextLine();
@@ -656,8 +627,7 @@ public class Menu {
 
         switch (num) {
           case 1:
-            if(employee.getPayment_type() == "Horista")
-            {
+            if(employee.getPayment_type() == "Horista"){
               Salaried salaried = new Salaried();
               String commissioned;
               Double commission = 0.0;
@@ -678,8 +648,7 @@ public class Menu {
           
                 payment_type = "Assalariado comissionado";
               }
-              else
-              {
+              else{
                 payment_type = "Assalariado";
               }
               salaried.setAddress(employee.getAddress());
@@ -692,8 +661,7 @@ public class Menu {
               employees.remove(employee);
               employees.add(salaried);
             }
-            else
-            {
+            else {
               System.out.println("Esse funcionário já é horista!");
               System.out.println("Pressione Enter para continuar");
               input.nextLine();
@@ -701,8 +669,7 @@ public class Menu {
             break;
 
           case 2:
-            if(employee.getPayment_type() != "Horista")
-            {
+            if(employee.getPayment_type() != "Horista") {
               Hourly hourly = new Hourly();
               String payment_type = "Horista";
 
@@ -719,8 +686,7 @@ public class Menu {
               employees.remove(employee);
               employees.add(hourly);
             }
-            else
-            {
+            else{
               System.out.println("Esse funcionário já é assalariado!");
               System.out.println("Pressione Enter para continuar");
               input.nextLine();
@@ -741,8 +707,7 @@ public class Menu {
         num = input.nextInt();
         input.nextLine();
 
-        switch (num) 
-        {
+        switch (num) {
           case 1:
             employee.setPayment_way("Correios");
             break;
@@ -759,8 +724,67 @@ public class Menu {
         }
         break;
 
-        case 5:
-          break;
+      case 5:
+        Boolean flag = true;
+        for (Syndicate syndicate : syndicates) {
+          if(syndicate.getEmployeeId() == employee.getUniqueID())
+          {
+            System.out.println("[1] Mudar ID");
+            System.out.println("[2] Sair do sindicato");
+            System.out.println("[3] Voltar");
+
+            num = input.nextInt();
+            input.nextLine();
+            flag = false;
+            
+            switch (num) {
+              case 1:
+                syndicates_counter++;
+                syndicate.setSyndicate_id(syndicates_counter);
+                System.out.println("ID de sindicato alterado.");
+                System.out.println("Pressione Enter para continuar");
+                input.nextLine();
+                break;
+
+              case 2:
+                syndicates.remove(syndicate);
+                System.out.println("O funcionário "+ employee.getName() +" saiu do sindicato.");
+                System.out.println("Pressione Enter para continuar");
+                input.nextLine();
+                break;
+              case 3:
+                break;
+                
+              default:
+                break;
+            }
+          }
+        }
+
+        if(flag)
+        {
+          System.out.println("[1] Entrar no sindicato");
+          System.out.println("[2] Voltar");
+          num = input.nextInt();
+          input.nextLine();
+
+          switch (num) {
+            case 1:
+              isSyndicate(employee.getUniqueID(), false);
+              break;
+
+            case 2:
+              break;
+          
+            default:
+              break;
+          }
+        }
+      break;
+
+      case 6:
+        break;
+
       default:
         break;
     }
