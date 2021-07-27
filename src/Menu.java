@@ -6,6 +6,7 @@ public class Menu {
   Scanner input = new Scanner(System.in);
   int employees_counter = 0;
   int syndicates_counter = -1;
+  ArrayList<PaymentSchedule> paymentSchedule = new ArrayList<>();
   LinkedList<Employee> employees = new LinkedList<>();
   LinkedList<Syndicate> syndicates = new LinkedList<>();
 
@@ -627,7 +628,7 @@ public class Menu {
 
         switch (num) {
           case 1:
-            if(employee.getPayment_type() == "Horista"){
+            if(employee.getPayment_type() == "Horista") {
               Salaried salaried = new Salaried();
               String commissioned;
               Double commission = 0.0;
@@ -640,15 +641,14 @@ public class Menu {
               System.out.print("Comissionado (Digite Sim ou Nao): ");
               commissioned = input.nextLine();
           
-              if(commissioned.toLowerCase().equals("sim"))
-              {
+              if(commissioned.toLowerCase().equals("sim")) {
                 System.out.print("Comissão (Digite um número para representar a porcentagem): ");
                 commission = input.nextDouble();
                 input.nextLine();
           
                 payment_type = "Assalariado comissionado";
               }
-              else{
+              else {
                 payment_type = "Assalariado";
               }
               salaried.setAddress(employee.getAddress());
@@ -686,7 +686,7 @@ public class Menu {
               employees.remove(employee);
               employees.add(hourly);
             }
-            else{
+            else {
               System.out.println("Esse funcionário já é assalariado!");
               System.out.println("Pressione Enter para continuar");
               input.nextLine();
@@ -761,8 +761,7 @@ public class Menu {
           }
         }
 
-        if(flag)
-        {
+        if(flag) {
           System.out.println("[1] Entrar no sindicato");
           System.out.println("[2] Voltar");
           num = input.nextInt();
