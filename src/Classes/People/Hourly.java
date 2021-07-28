@@ -1,6 +1,8 @@
-package Classes;
+package Classes.People;
 
 import java.util.LinkedList;
+
+import Classes.TimeCard;
 
 public class Hourly extends Employee {
   LinkedList<TimeCard> timeCards = new LinkedList<>();
@@ -26,11 +28,22 @@ public class Hourly extends Employee {
     System.out.println("Horas trabalhadas na semana: " + timeCards.getLast().getWorked_week_time() + "\n");
   }
 
+  public LinkedList<TimeCard> getTimeCards() {
+    return timeCards;
+  }
+
   public void setTimeCard(TimeCard timecard)
   {
     timeCards.add(timecard);
     timeCards.peekLast().setWorked_week_time(timeCards);
     getWorked_time();
+  }
+
+  public void printSalary()
+  {
+    System.out.println("ID do funcionário: "+ this.uniqueID);
+    System.out.println("Nome do funcionário: "+ this.name);
+    System.out.println("Método de envio: " + this.payment_way);
   }
 
   public String printEmployee ()

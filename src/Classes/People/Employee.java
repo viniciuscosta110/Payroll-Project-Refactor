@@ -1,4 +1,4 @@
-package Classes;
+package Classes.People;
 
 public class Employee
 {

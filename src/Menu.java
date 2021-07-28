@@ -1,5 +1,11 @@
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.*;
 import Classes.*;
+import Classes.People.Employee;
+import Classes.People.Hourly;
+import Classes.People.Salaried;
+import Classes.People.Syndicate;
 
 public class Menu {
 
@@ -26,14 +32,15 @@ public class Menu {
       System.out.println("[5] Lançamento de vendas");
       System.out.println("[6] Lançar taxa de serviço");
       System.out.println("[7] Alterar dados do funcionário");
-      System.out.println("[8] Sair");
+      System.out.println("[8] Rodar folha de pagamento de hoje");
+      System.out.println("[9] Sair");
       
       String key_handler = input.nextLine();
       clear();
 
       int key = 0;
 
-      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '8') {
+      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '9') {
         key = key_handler.charAt(0) - '0';
 
         switch (key) {
@@ -73,6 +80,10 @@ public class Menu {
             break;
 
           case 8:
+            rollPayment();
+            break;
+
+          case 9:
             input.close();
             System.exit(0);
             break;
@@ -727,8 +738,7 @@ public class Menu {
       case 5:
         Boolean flag = true;
         for (Syndicate syndicate : syndicates) {
-          if(syndicate.getEmployeeId() == employee.getUniqueID())
-          {
+          if(syndicate.getEmployeeId() == employee.getUniqueID()) {
             System.out.println("[1] Mudar ID");
             System.out.println("[2] Sair do sindicato");
             System.out.println("[3] Voltar");
@@ -787,5 +797,30 @@ public class Menu {
       default:
         break;
     }
+  }
+
+  private void rollPayment() {
+    LocalDate today = LocalDate.now();
+
+    System.out.println("Hoje é " + today + "\n");
+    
+    if(today.getDayOfWeek() == DayOfWeek.TUESDAY) {
+      for (Employee employee : employees) {
+        Hourly hourly = (Hourly)employee;
+        hourly.printSalary();
+        for(Syndicate syndicate:syndicates)
+        {
+          if(syndicate.getEmployeeId() == employee.getUniqueID())
+          {
+            Double fee = syndicate.getSyndicate_fee();
+            System.out.println("Salário da semana: "+ ((hourly.getTimeCards().getLast().getWorked_week_time() * hourly.getHour_salary()) - fee) + "\n");
+          }
+        }
+      }
+    }
+
+    System.out.println("Pagamentos Efetuados");
+    System.out.println("Pressione Enter para continuar");
+    input.nextLine();
   }
 }

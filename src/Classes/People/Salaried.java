@@ -1,6 +1,8 @@
-package Classes;
+package Classes.People;
 
 import java.util.LinkedList;
+
+import Classes.Sale;
 
 public class Salaried extends Employee 
 {
