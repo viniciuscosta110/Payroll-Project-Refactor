@@ -2,10 +2,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 import Classes.*;
-import Classes.People.Employee;
-import Classes.People.Hourly;
-import Classes.People.Salaried;
-import Classes.People.Syndicate;
 
 public class Menu {
 
@@ -176,14 +172,14 @@ public class Menu {
 
     switch (payment_way) {
       case 1:
-        employee.setPayment_way("Correios");
+        employee.setPaymentWay("Correios");
         break;
       case 2:
-        employee.setPayment_way("Em mãos");
+        employee.setPaymentWay("Em mãos");
         break;
 
       case 3:
-        employee.setPayment_way("Depósito");
+        employee.setPaymentWay("Depósito");
         break;
 
       default:
@@ -217,7 +213,7 @@ public class Menu {
     employee.setName(name);
     employee.setAddress(address);
     employee.setHour_salary(Double.parseDouble(hour_salary));
-    employee.setPayment_type(payment_type);
+    employee.setPaymentType(payment_type);
     employee.setUniqueID(uniqueID);
 
     employees.add(employee);
@@ -259,14 +255,14 @@ public class Menu {
 
     switch (payment_way) {
       case 1:
-        employee.setPayment_way("Correios");
+        employee.setPaymentWay("Correios");
         break;
       case 2:
-        employee.setPayment_way("Em mãos");
+        employee.setPaymentWay("Em mãos");
         break;
 
       case 3:
-        employee.setPayment_way("Depósito");
+        employee.setPaymentWay("Depósito");
         break;
 
       default:
@@ -313,10 +309,10 @@ public class Menu {
     
     employee.setAddress(address);
     employee.setName(name);
-    employee.setMonth_salary(Double.parseDouble(month_salary));
+    employee.setMonthSalary(Double.parseDouble(month_salary));
     employee.setUniqueID(uniqueID);
     employee.setCommission(commission);
-    employee.setPayment_type(payment_type);
+    employee.setPaymentType(payment_type);
 
     employees.add(employee);
 
@@ -361,11 +357,11 @@ public class Menu {
 
     if(employees.size() > 0) {
       for (Employee employee : employees) {
-        if(employee.getPayment_type() == "Assalariado" || employee.getPayment_type() == "Assalariado comissionado") {
+        if(employee.getPaymentType() == "Assalariado" || employee.getPaymentType() == "Assalariado comissionado") {
           Salaried aux = (Salaried) employee;
           System.out.println(aux.printEmployee());
         }
-        else if(employee.getPayment_type() == "Horista") {
+        else if(employee.getPaymentType() == "Horista") {
           Hourly aux = (Hourly) employee;
           System.out.println(aux.printEmployee());
         }
@@ -400,7 +396,7 @@ public class Menu {
 
     for (Employee employee2 : employees) {
       if(employee2.getUniqueID() == uniqueID) {
-        if(employee2.getPayment_type() == "Horista") {
+        if(employee2.getPaymentType() == "Horista") {
           flag = false;
           hourly = false;
         }
@@ -464,7 +460,7 @@ public class Menu {
 
     for (Employee employee2 : employees) {
       if(employee2.getUniqueID() == uniqueID) {
-        if(employee2.getPayment_type() == "Assalariado" || employee2.getPayment_type() == "Assalariado comissionado") {
+        if(employee2.getPaymentType() == "Assalariado" || employee2.getPaymentType() == "Assalariado comissionado") {
           flag = false;
           salaried = false;
           employee = (Salaried) employee2;
@@ -630,7 +626,7 @@ public class Menu {
         break;
 
       case 3:
-        System.out.println("\nTipo de remuneração atual: " + employee.getPayment_type());
+        System.out.println("\nTipo de remuneração atual: " + employee.getPaymentType());
         System.out.println("Selecione um novo tipo de remuneração: ");
         System.out.println("[1] Assalariado");
         System.out.println("[2] Horista");
@@ -639,7 +635,7 @@ public class Menu {
 
         switch (num) {
           case 1:
-            if(employee.getPayment_type() == "Horista") {
+            if(employee.getPaymentType() == "Horista") {
               Salaried salaried = new Salaried();
               String commissioned;
               Double commission = 0.0;
@@ -664,10 +660,10 @@ public class Menu {
               }
               salaried.setAddress(employee.getAddress());
               salaried.setName(employee.getName());
-              salaried.setPayment_way(employee.getPayment_way());
-              salaried.setMonth_salary(month_salary);
+              salaried.setPaymentWay(employee.getPaymentWay());
+              salaried.setMonthSalary(month_salary);
               salaried.setCommission(commission);
-              salaried.setPayment_type(payment_type);
+              salaried.setPaymentType(payment_type);
 
               employees.remove(employee);
               employees.add(salaried);
@@ -680,7 +676,7 @@ public class Menu {
             break;
 
           case 2:
-            if(employee.getPayment_type() != "Horista") {
+            if(employee.getPaymentType() != "Horista") {
               Hourly hourly = new Hourly();
               String payment_type = "Horista";
 
@@ -690,9 +686,9 @@ public class Menu {
 
               hourly.setAddress(employee.getAddress());
               hourly.setName(employee.getName());
-              hourly.setPayment_way(employee.getPayment_way());
+              hourly.setPaymentWay(employee.getPaymentWay());
               hourly.setHour_salary(hour_salary);
-              hourly.setPayment_type(payment_type);
+              hourly.setPaymentType(payment_type);
 
               employees.remove(employee);
               employees.add(hourly);
@@ -710,7 +706,7 @@ public class Menu {
         break;
 
       case 4:
-        System.out.println("\nMétodo de pagamento atual: " + employee.getPayment_way());
+        System.out.println("\nMétodo de pagamento atual: " + employee.getPaymentWay());
         System.out.println("\nSelecione um novo método de pagamento: ");
         System.out.println("[1] Correios");
         System.out.println("[2] Em mãos");
@@ -720,14 +716,14 @@ public class Menu {
 
         switch (num) {
           case 1:
-            employee.setPayment_way("Correios");
+            employee.setPaymentWay("Correios");
             break;
           case 2:
-            employee.setPayment_way("Em mãos");
+            employee.setPaymentWay("Em mãos");
             break;
 
           case 3:
-            employee.setPayment_way("Depósito");
+            employee.setPaymentWay("Depósito");
             break;
 
           default:
@@ -804,16 +800,59 @@ public class Menu {
 
     System.out.println("Hoje é " + today + "\n");
     
-    if(today.getDayOfWeek() == DayOfWeek.TUESDAY) {
-      for (Employee employee : employees) {
-        Hourly hourly = (Hourly)employee;
-        hourly.printSalary();
-        for(Syndicate syndicate:syndicates)
-        {
-          if(syndicate.getEmployeeId() == employee.getUniqueID())
+    
+    for (Employee employee : employees) {
+      if(employee.getPaymentType() == "Horista") {
+        if(today.getDayOfWeek() == DayOfWeek.FRIDAY) {
+          Hourly hourly = (Hourly)employee;
+          Double exceededTimePayment = (hourly.getHour_salary() * 1.5) * hourly.getTimeCards().getLast().getExceeded_time();
+          Double salary = hourly.getTimeCards().getLast().getWorked_week_time() * hourly.getHour_salary() + exceededTimePayment;
+
+          hourly.printSalary();
+          for(Syndicate syndicate:syndicates) {
+            if(syndicate.getEmployeeId() == employee.getUniqueID())
+            {
+              salary = salary - syndicate.getSyndicate_fee();
+              break;
+            }
+          }
+
+          System.out.println("Salário da semana: "+ salary + "\n");
+        }
+      }
+      else
+      {
+        Salaried salaried = (Salaried) employee;
+        Double salary = 0.0;
+        Boolean flag = false;
+        
+        if(today.getDayOfMonth() == today.lengthOfMonth() - 3) {
+          if(today.getDayOfWeek() == DayOfWeek.FRIDAY) {
+            flag = true;
+          }
+
+          if(today.getDayOfWeek() == DayOfWeek.THURSDAY)
           {
-            Double fee = syndicate.getSyndicate_fee();
-            System.out.println("Salário da semana: "+ ((hourly.getTimeCards().getLast().getWorked_week_time() * hourly.getHour_salary()) - fee) + "\n");
+            flag = false;
+          }
+        }
+
+        salaried.printSalary();
+        salary = salaried.getMonthSalary();
+  
+        for(Syndicate syndicate:syndicates) {
+          if(syndicate.getEmployeeId() == salaried.getUniqueID()) {
+            salary = salary - syndicate.getSyndicate_fee();
+            break;
+          }
+        }
+
+        if((employee.getPaymentType() == "Assalariado comissionado") && (today.getDayOfMonth() - 14 > -9) && (today.getDayOfWeek() == DayOfWeek.FRIDAY)) {
+          for(Sale sale : salaried.getSales()) {
+            if(sale.getFlag()) {
+              salary = salary + (salaried.getCommission()/100) * sale.getPrice();
+              sale.setFlag(false);
+            }
           }
         }
       }

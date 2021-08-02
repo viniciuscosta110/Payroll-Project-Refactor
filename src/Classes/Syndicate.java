@@ -1,4 +1,4 @@
-package Classes.People;
+package Classes;
 
 public class Syndicate {
   private Double syndicate_fee;

@@ -8,6 +8,7 @@ public class PaymentSchedule {
   int day;
   String weekDay;
   String frequency;
+  int employeeId;
 
   public void setDay(int day) {
     this.day = day;
@@ -41,7 +42,18 @@ public class PaymentSchedule {
     return weekDay;
   }
 
-  public PaymentSchedule(){
+  public void setEmployeeId(int employeeId) {
+    this.employeeId = employeeId;
+  }
+
+  public PaymentSchedule (Boolean monthly, int day, String weekDay, String frequency) {
+    this.monthly = monthly;
+    this.day = day;
+    this.weekDay = weekDay;
+    this.frequency = frequency;
+  }
+
+  public PaymentSchedule() {
 
   }
 }
