@@ -1,21 +1,18 @@
 package Classes;
 
-import java.util.LinkedList;
-
 public class Salaried extends Employee 
 {
-  protected Double month_salary = 0.0;
+  protected Double monthSalary = 0.0;
   protected Double commission = 0.0;
-  LinkedList<Sale> sales = new LinkedList<>();
   
-  public void setMonth_salary(Double month_salary) 
+  public void setMonthSalary(Double monthSalary) 
   {
-      this.month_salary = month_salary;
+      this.monthSalary = monthSalary;
   }
 
-  public Double getMonth_salary() 
+  public Double getMonthSalary() 
   {
-      return month_salary;
+      return monthSalary;
   }
 
   public void setCommission(Double commission)
@@ -28,27 +25,20 @@ public class Salaried extends Employee
       return commission;
   }
 
-  public void setSales(Sale sale)
+  public void printSalary()
   {
-    this.sales.add(sale);
-  }
-
-  public void getSales() 
-  {
-    for (Sale sale : sales) 
-    {
-      System.out.println("\nData: " + sale.getDate() +
-      "\nPreço: " + sale.getPrice() + "\n");
-    }
+    System.out.println("ID do funcionário: "+ this.uniqueID);
+    System.out.println("Nome do funcionário: "+ this.name);
+    System.out.println("Método de envio: " + this.paymentWay);
   }
 
   public String printEmployee ()
   {
       return "\nNome: " + this.name +
       "\nEndereço: " + this.address +
-      "\nTipo de pagamento: " + this.payment_type +
-      "\nVia de pagamento: " + this.payment_way +
-      "\nSalário por mês: " + this.month_salary +
+      "\nTipo de pagamento: " + this.paymentType +
+      "\nVia de pagamento: " + this.paymentWay +
+      "\nSalário por mês: " + this.monthSalary +
       "\nComissão (em %): " + this.commission + "\n" +
       "\nID: " + this.uniqueID;
   }

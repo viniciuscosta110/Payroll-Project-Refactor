@@ -7,6 +7,7 @@ public class TimeCard {
 	protected int departure_time;
 	protected int worked_day_time;
 	protected int worked_week_time;
+	protected Double exceeded_time = 0.0;
 	protected String date;
 
 	public void setArrive_time(int arrive_time) {
@@ -38,7 +39,16 @@ public class TimeCard {
 		int i = 0;
 
 		for (TimeCard timeCard : timeCards) {
-			worked_week_time += timeCard.worked_day_time;
+			if(timeCard.worked_day_time > 8)
+			{
+				worked_week_time += 8;
+				setExceeded_time(timeCard.worked_day_time % 8.0);
+			}
+			else
+			{
+				worked_week_time += timeCard.worked_day_time;
+			}
+			
 			i++;
 
 			if(i >= 7)
@@ -62,6 +72,14 @@ public class TimeCard {
 
 	public String getDate() {
 		return date;
+	}
+
+	public Double getExceeded_time() {
+		return exceeded_time;
+	}
+
+	public void setExceeded_time(Double exceeded_time) {
+		this.exceeded_time = this.exceeded_time + exceeded_time;
 	}
 
 	public TimeCard(int arrive_time, int departure_time, String date)
