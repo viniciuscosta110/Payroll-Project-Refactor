@@ -799,8 +799,7 @@ public class Menu {
     LocalDate today = LocalDate.now();
 
     System.out.println("Hoje é " + today + "\n");
-    
-    
+
     for (Employee employee : employees) {
       if(employee.getPaymentType() == "Horista") {
         if(today.getDayOfWeek() == DayOfWeek.FRIDAY) {
@@ -810,8 +809,7 @@ public class Menu {
 
           hourly.printSalary();
           for(Syndicate syndicate:syndicates) {
-            if(syndicate.getEmployeeId() == employee.getUniqueID())
-            {
+            if(syndicate.getEmployeeId() == employee.getUniqueID()) {
               salary = salary - syndicate.getSyndicate_fee();
               break;
             }
@@ -820,13 +818,12 @@ public class Menu {
           System.out.println("Salário da semana: "+ salary + "\n");
         }
       }
-      else
-      {
+      else {
         Salaried salaried = (Salaried) employee;
         Double salary = 0.0;
         Boolean flag = false;
-        
-        if(today.getDayOfMonth() == today.lengthOfMonth() - 3) {
+
+        if(today.getDayOfMonth() == today.lengthOfMonth() - 2) {
           if(today.getDayOfWeek() == DayOfWeek.FRIDAY) {
             flag = true;
           }
@@ -836,18 +833,22 @@ public class Menu {
             flag = false;
           }
         }
+        
+        if(flag) {
+          salaried.printSalary();
+          salary = salaried.getMonthSalary();
 
-        salaried.printSalary();
-        salary = salaried.getMonthSalary();
-  
-        for(Syndicate syndicate:syndicates) {
-          if(syndicate.getEmployeeId() == salaried.getUniqueID()) {
-            salary = salary - syndicate.getSyndicate_fee();
-            break;
+          for(Syndicate syndicate:syndicates) {
+            if(syndicate.getEmployeeId() == salaried.getUniqueID()) {
+              salary = salary - syndicate.getSyndicate_fee();
+              break;
+            }
           }
         }
 
         if((employee.getPaymentType() == "Assalariado comissionado") && (today.getDayOfMonth() - 14 > -9) && (today.getDayOfWeek() == DayOfWeek.FRIDAY)) {
+          salaried.printSalary();
+          
           for(Sale sale : salaried.getSales()) {
             if(sale.getFlag()) {
               salary = salary + (salaried.getCommission()/100) * sale.getPrice();
@@ -855,6 +856,8 @@ public class Menu {
             }
           }
         }
+
+        System.out.println("Salário: " + salary + "\n");
       }
     }
 
