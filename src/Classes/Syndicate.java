@@ -2,13 +2,13 @@ package Classes;
 
 public class Syndicate {
   private Double syndicate_fee;
-  private Double service_fee;
+  private Double service_fee = 0.0;
   private int syndicate_id;
   private int employeeId;
 
   public void setService_fee(Double service_fee) 
   {
-    this.service_fee = service_fee;
+    this.service_fee = this.service_fee + service_fee;
   }
 
   public double getService_fee() 

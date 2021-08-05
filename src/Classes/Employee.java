@@ -6,10 +6,11 @@ public class Employee {
   protected String name;
   protected String address;
   protected int uniqueID;
+  protected int paymentSchedule;
   protected String paymentType;
   protected String paymentWay;
   protected ArrayList<Sale> sales = new ArrayList<>();
-
+  
   public void setAddress(String address) {
     this.address = address;
   }
@@ -32,6 +33,14 @@ public class Employee {
 
   public int getUniqueID()  {
     return uniqueID;
+  }
+
+  public void setPaymentSchedule(int paymentSchedule) {
+    this.paymentSchedule = paymentSchedule;
+  }
+  
+  public int getPaymentSchedule() {
+    return paymentSchedule;
   }
 
   public void setPaymentType(String paymentType)  {

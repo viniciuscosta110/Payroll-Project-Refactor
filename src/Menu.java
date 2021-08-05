@@ -270,7 +270,7 @@ public class Menu {
     }
 
     while(true) {
-      System.out.print("Salário Mensal: ");
+      System.out.print("\nSalário Mensal: ");
       month_salary = input.nextLine();
 
       Boolean flag = true;
@@ -811,6 +811,7 @@ public class Menu {
           for(Syndicate syndicate:syndicates) {
             if(syndicate.getEmployeeId() == employee.getUniqueID()) {
               salary = salary - syndicate.getSyndicate_fee();
+              salary = salary - syndicate.getService_fee();
               break;
             }
           }
@@ -827,10 +828,13 @@ public class Menu {
           if(today.getDayOfWeek() == DayOfWeek.FRIDAY) {
             flag = true;
           }
+        }
 
-          if(today.getDayOfWeek() == DayOfWeek.THURSDAY)
+        if(today.getDayOfMonth() == today.lengthOfMonth())
+        {
+          if(!(today.getDayOfWeek().equals(DayOfWeek.SATURDAY)) && !(today.getDayOfWeek().equals(DayOfWeek.SUNDAY)))
           {
-            flag = false;
+            flag = true;
           }
         }
         
@@ -841,6 +845,7 @@ public class Menu {
           for(Syndicate syndicate:syndicates) {
             if(syndicate.getEmployeeId() == salaried.getUniqueID()) {
               salary = salary - syndicate.getSyndicate_fee();
+              salary = salary - syndicate.getService_fee();
               break;
             }
           }
@@ -848,7 +853,7 @@ public class Menu {
 
         if((employee.getPaymentType() == "Assalariado comissionado") && (today.getDayOfMonth() - 14 > -9) && (today.getDayOfWeek() == DayOfWeek.FRIDAY)) {
           salaried.printSalary();
-          
+
           for(Sale sale : salaried.getSales()) {
             if(sale.getFlag()) {
               salary = salary + (salaried.getCommission()/100) * sale.getPrice();

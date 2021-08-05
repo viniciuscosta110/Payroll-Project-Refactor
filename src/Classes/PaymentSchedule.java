@@ -1,59 +1,40 @@
 package Classes;
 
-/**
- * PaymentSchedule
- */
+import java.time.*;
+import java.util.*;
+
 public class PaymentSchedule {
-  Boolean monthly;
-  int day;
-  String weekDay;
-  String frequency;
-  int employeeId;
+  ArrayList<String> schedules = new ArrayList<>();
 
-  public void setDay(int day) {
-    this.day = day;
+  public Boolean checkMonthlyPayment() {
+    LocalDate today = LocalDate.now();
+    Boolean flag = false;
+
+    if(today.getDayOfMonth() == today.lengthOfMonth() - 2) {
+      if(today.getDayOfWeek() == DayOfWeek.FRIDAY) {
+        flag = true;
+      }
+    }
+
+    if(today.getDayOfMonth() == today.lengthOfMonth())
+    {
+      if(!(today.getDayOfWeek().equals(DayOfWeek.SATURDAY)) && !(today.getDayOfWeek().equals(DayOfWeek.SUNDAY)))
+      {
+        flag = true;
+      }
+    }
+
+    return flag;
   }
 
-  public int getDay() {
-    return day;
-  }
-
-  public void setFrequency(String frequency) {
-    this.frequency = frequency;
-  }
-
-  public String getFrequency() {
-    return frequency;
-  }
-
-  public void setMonthly(Boolean monthly) {
-    this.monthly = monthly;
-  }
-
-  public Boolean getMonthly() {
-    return monthly;
-  }
-
-  public void setWeekDay(String weekDay) {
-    this.weekDay = weekDay;
-  }
-
-  public String getWeekDay() {
-    return weekDay;
-  }
-
-  public void setEmployeeId(int employeeId) {
-    this.employeeId = employeeId;
-  }
-
-  public PaymentSchedule (Boolean monthly, int day, String weekDay, String frequency) {
-    this.monthly = monthly;
-    this.day = day;
-    this.weekDay = weekDay;
-    this.frequency = frequency;
-  }
-
-  public PaymentSchedule() {
-
+  private PaymentSchedule() {
+    String Default = "mensal $";
+    this.schedules.add(Default);
+    
+    Default = "semanal 1 sexta";
+    this.schedules.add(Default);
+    
+    Default = "semanal 2 sexta";
+    this.schedules.add(Default);
   }
 }
