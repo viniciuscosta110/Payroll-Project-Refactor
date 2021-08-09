@@ -6,6 +6,14 @@ import java.util.*;
 public class PaymentSchedule {
   ArrayList<String> schedules = new ArrayList<>();
 
+  public ArrayList<String> getSchedules() {
+    return schedules;
+  }
+
+  public void setSchedules(String schedule) {
+    this.schedules.add(schedule);
+  }
+
   public Boolean checkMonthlyPayment() {
     LocalDate today = LocalDate.now();
     Boolean flag = false;

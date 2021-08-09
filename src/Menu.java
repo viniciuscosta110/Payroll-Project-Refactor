@@ -1,5 +1,6 @@
+import static Classes.Payroll.*;
+
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.*;
 import Classes.*;
 
@@ -8,7 +9,7 @@ public class Menu {
   Scanner input = new Scanner(System.in);
   int employees_counter = 0;
   int syndicates_counter = -1;
-  ArrayList<PaymentSchedule> paymentSchedule = new ArrayList<>();
+  PaymentSchedule paymentSchedule = new PaymentSchedule();
   LinkedList<Employee> employees = new LinkedList<>();
   LinkedList<Syndicate> syndicates = new LinkedList<>();
 
@@ -29,15 +30,16 @@ public class Menu {
       System.out.println("[6] Lançar taxa de serviço");
       System.out.println("[7] Alterar dados do funcionário");
       System.out.println("[8] Rodar folha de pagamento de hoje");
-      System.out.println("[9] Sair");
+      System.out.println("[9] Criar novo perfil de pagamento");
+      System.out.println("[10] Sair");
       
       String key_handler = input.nextLine();
       clear();
 
       int key = 0;
 
-      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '9') {
-        key = key_handler.charAt(0) - '0';
+      if(Integer.parseInt(key_handler) >= 0 && Integer.parseInt(key_handler) <= 10) {
+        key = Integer.parseInt(key_handler);
 
         switch (key) {
           case 1:
@@ -78,8 +80,12 @@ public class Menu {
           case 8:
             rollPayment();
             break;
-
+          
           case 9:
+            createNewSchedule();
+            break;
+
+          case 10:
             input.close();
             System.exit(0);
             break;
@@ -92,6 +98,52 @@ public class Menu {
         System.out.println("Digite uma opção válida.\n");
       }
     }
+  }
+
+  private void createNewSchedule() {
+    String newOption = "";
+    String[] weekDays = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY","FRIDAY"};
+    int select;
+
+    System.out.println("Escolha uma das opções: ");
+    System.out.println("[1] Semanal");
+    System.out.println("[2] Mensal");
+    select = input.nextInt();
+    input.nextLine();
+    
+    switch (select) {
+      case 1:
+        newOption = "semanal";
+
+        System.out.println("Indique de quantas em quantas semanas ocorre o pagamento: ");
+        select = input.nextInt();
+        input.nextLine();
+
+        newOption = newOption + " " + Integer.toString(select);
+
+        System.out.println("\nSegunda[1] Terça[2] Quarta[3] Quinta[4] Sexta[5]");
+        System.out.println("Selecione o dia da semana do pagamento: ");
+        select = input.nextInt();
+        input.nextLine();
+
+        newOption = newOption + " " + weekDays[select-1];
+        break;
+
+      case 2:
+        newOption = "mensal";
+        
+        System.out.println("Digite o dia do pagamento: ");
+        select = input.nextInt();
+        input.nextLine();
+
+        newOption = newOption + " " + Integer.toString(select);
+        break;
+
+      default:
+        break;
+    }
+
+    paymentSchedule.setSchedules(newOption);
   }
 
   private void clear() {
@@ -151,7 +203,6 @@ public class Menu {
     String payment_type = "Horista";
     int payment_way;
     String hour_salary = "";
-
     int uniqueID = employees_counter + 1;
     employees_counter++;
 
@@ -215,6 +266,7 @@ public class Menu {
     employee.setHour_salary(Double.parseDouble(hour_salary));
     employee.setPaymentType(payment_type);
     employee.setUniqueID(uniqueID);
+    employee.setPaymentSchedule(1);
 
     employees.add(employee);
 
@@ -300,9 +352,11 @@ public class Menu {
       input.nextLine();
 
       payment_type = "Assalariado comissionado";
+      employee.setPaymentSchedule(2);
     }
     else {
       payment_type = "Assalariado";
+      employee.setPaymentSchedule(0);
     }
 
     isSyndicate(uniqueID, true);
@@ -313,7 +367,7 @@ public class Menu {
     employee.setUniqueID(uniqueID);
     employee.setCommission(commission);
     employee.setPaymentType(payment_type);
-
+    
     employees.add(employee);
 
     System.out.println("\nFuncionário cadastrado!\n");
@@ -601,7 +655,8 @@ public class Menu {
     System.out.println("[3] Alterar tipo de remuneração");
     System.out.println("[4] Alterar método de pagamento");
     System.out.println("[5] Alterar situação sindical");
-    System.out.println("[6] Voltar");
+    System.out.println("[6] Alterar agenda de pagamento");
+    System.out.println("[7] Voltar");
     
     change = input.nextInt();
     input.nextLine();
@@ -776,6 +831,10 @@ public class Menu {
           switch (num) {
             case 1:
               isSyndicate(employee.getUniqueID(), false);
+
+              System.out.println("O funcionário "+ employee.getName() +" entrou do sindicato.");
+              System.out.println("Pressione Enter para continuar");
+              input.nextLine();
               break;
 
             case 2:
@@ -785,9 +844,50 @@ public class Menu {
               break;
           }
         }
-      break;
+        break;
 
       case 6:
+        System.out.println("Legenda:\n$ = último dia útil\nSemanal 2 sexta");
+        System.out.println("Selecione uma nova agenda: ");
+        String[] weekDays = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY","FRIDAY"};
+        String[] portugueseWeekDays = {"Segunda", "Terça", "Quarta", "Quinta","Sexta"};
+        int j = 1;
+
+        for (String schedule : paymentSchedule.getSchedules()) {
+          
+          if(schedule.contains("semanal")) {
+            int i = 0;
+            String printAux = schedule;
+
+            for (String string : weekDays) {
+              if(schedule.contains(string)) {
+                String dayName = DayOfWeek.of(i).name();
+                printAux.replaceAll(dayName, portugueseWeekDays[i]);
+                break;
+              }
+
+              i = i + 1;
+            }
+
+            System.out.println("[" + j + "] " + printAux);
+          }
+          else {
+            System.out.println("[" + j + "] " + schedule);
+          }
+
+          j = j + 1;
+        }
+        int paymentSchedule = input.nextInt();
+        input.nextLine();
+
+        employee.setPaymentSchedule(paymentSchedule);
+
+        System.out.println("Agenda alterada com sucesso.");
+        System.out.println("Pressione Enter para continuar");
+        input.nextLine();
+        break;
+
+      case 7:
         break;
 
       default:
@@ -796,75 +896,7 @@ public class Menu {
   }
 
   private void rollPayment() {
-    LocalDate today = LocalDate.now();
-
-    System.out.println("Hoje é " + today + "\n");
-
-    for (Employee employee : employees) {
-      if(employee.getPaymentType() == "Horista") {
-        if(today.getDayOfWeek() == DayOfWeek.FRIDAY) {
-          Hourly hourly = (Hourly)employee;
-          Double exceededTimePayment = (hourly.getHour_salary() * 1.5) * hourly.getTimeCards().getLast().getExceeded_time();
-          Double salary = hourly.getTimeCards().getLast().getWorked_week_time() * hourly.getHour_salary() + exceededTimePayment;
-
-          hourly.printSalary();
-          for(Syndicate syndicate:syndicates) {
-            if(syndicate.getEmployeeId() == employee.getUniqueID()) {
-              salary = salary - syndicate.getSyndicate_fee();
-              salary = salary - syndicate.getService_fee();
-              break;
-            }
-          }
-
-          System.out.println("Salário da semana: "+ salary + "\n");
-        }
-      }
-      else {
-        Salaried salaried = (Salaried) employee;
-        Double salary = 0.0;
-        Boolean flag = false;
-
-        if(today.getDayOfMonth() == today.lengthOfMonth() - 2) {
-          if(today.getDayOfWeek() == DayOfWeek.FRIDAY) {
-            flag = true;
-          }
-        }
-
-        if(today.getDayOfMonth() == today.lengthOfMonth())
-        {
-          if(!(today.getDayOfWeek().equals(DayOfWeek.SATURDAY)) && !(today.getDayOfWeek().equals(DayOfWeek.SUNDAY)))
-          {
-            flag = true;
-          }
-        }
-        
-        if(flag) {
-          salaried.printSalary();
-          salary = salaried.getMonthSalary();
-
-          for(Syndicate syndicate:syndicates) {
-            if(syndicate.getEmployeeId() == salaried.getUniqueID()) {
-              salary = salary - syndicate.getSyndicate_fee();
-              salary = salary - syndicate.getService_fee();
-              break;
-            }
-          }
-        }
-
-        if((employee.getPaymentType() == "Assalariado comissionado") && (today.getDayOfMonth() - 14 > -9) && (today.getDayOfWeek() == DayOfWeek.FRIDAY)) {
-          salaried.printSalary();
-
-          for(Sale sale : salaried.getSales()) {
-            if(sale.getFlag()) {
-              salary = salary + (salaried.getCommission()/100) * sale.getPrice();
-              sale.setFlag(false);
-            }
-          }
-        }
-
-        System.out.println("Salário: " + salary + "\n");
-      }
-    }
+    verifyPayment(employees, syndicates, paymentSchedule);
 
     System.out.println("Pagamentos Efetuados");
     System.out.println("Pressione Enter para continuar");
