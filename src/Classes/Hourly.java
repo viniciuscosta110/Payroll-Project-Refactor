@@ -37,7 +37,7 @@ public class Hourly extends Employee {
     getWorked_time();
   }
 
-  public void printSalary()
+  public void paymentDefault()
   {
     System.out.println("ID do funcionário: "+ this.uniqueID);
     System.out.println("Nome do funcionário: "+ this.name);
