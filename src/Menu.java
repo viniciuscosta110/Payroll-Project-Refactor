@@ -12,6 +12,9 @@ public class Menu {
   PaymentSchedule paymentSchedule = new PaymentSchedule();
   LinkedList<Employee> employees = new LinkedList<>();
   LinkedList<Syndicate> syndicates = new LinkedList<>();
+  States newState;
+  History history = new History();
+  Boolean stateFlag = true;
 
   public void init() {
     Scanner input = new Scanner(System.in);
@@ -31,14 +34,16 @@ public class Menu {
       System.out.println("[7] Alterar dados do funcionário");
       System.out.println("[8] Rodar folha de pagamento de hoje");
       System.out.println("[9] Criar novo perfil de pagamento");
-      System.out.println("[10] Sair");
+      System.out.println("[10] Desfazer a última alteração");
+      System.out.println("[11] Refazer");
+      System.out.println("[12] Sair");
       
       String key_handler = input.nextLine();
       clear();
 
       int key = 0;
 
-      if(Integer.parseInt(key_handler) >= 0 && Integer.parseInt(key_handler) <= 10) {
+      if(Integer.parseInt(key_handler) >= 0 && Integer.parseInt(key_handler) <= 12) {
         key = Integer.parseInt(key_handler);
 
         switch (key) {
@@ -55,6 +60,7 @@ public class Menu {
           case 3:
             listEmployees();
             clear();
+            stateFlag = false;
             break;
 
           case 4:
@@ -79,20 +85,42 @@ public class Menu {
 
           case 8:
             rollPayment();
+            clear();
             break;
           
           case 9:
             createNewSchedule();
+            clear();
             break;
 
           case 10:
+            undoHandler();
+            clear();
+            stateFlag = false;
+            break;
+
+          case 11:
+            redoHandler();
+            clear();
+            stateFlag = false;
+            break;
+          
+          case 12:
             input.close();
             System.exit(0);
             break;
 
           default:
+            stateFlag = false;
             break;
         }
+
+        if(stateFlag) {
+          newState = new States(paymentSchedule, employees, syndicates, employees_counter, syndicates_counter);
+          history.setStates(newState);
+        }
+
+        stateFlag = true;
       }
       else {
         System.out.println("Digite uma opção válida.\n");
@@ -158,7 +186,6 @@ public class Menu {
       System.out.println("Selecione uma opção para acessá-la.\n");
       System.out.println("[1] Funcionário Horista");
       System.out.println("[2] Funcionário Assalariado");
-      System.out.println("[3] Voltar");
 
       String key_handler = input.nextLine();
       clear();
@@ -178,10 +205,6 @@ public class Menu {
             addSalaried();
             clear();
             break;
-
-          case 3:
-            clear();
-            return;
 
           default:
             break;
@@ -633,6 +656,7 @@ public class Menu {
       if(employee.getUniqueID() == uniqueID) {
         changeData(employee);
         flag = false;
+        break;
       }
     }
 
@@ -656,7 +680,6 @@ public class Menu {
     System.out.println("[4] Alterar método de pagamento");
     System.out.println("[5] Alterar situação sindical");
     System.out.println("[6] Alterar agenda de pagamento");
-    System.out.println("[7] Voltar");
     
     change = input.nextInt();
     input.nextLine();
@@ -678,6 +701,11 @@ public class Menu {
         System.out.println("\nEndereço atual: " + employee.getAddress());
         System.out.println("Novo endereço: ");
         text = input.nextLine();
+        employee.setAddress(text);
+
+        System.out.println("\nEndereço alterado com sucesso!");
+        System.out.println("Pressione enter para continuar!");
+        input.nextLine();
         break;
 
       case 3:
@@ -690,7 +718,7 @@ public class Menu {
 
         switch (num) {
           case 1:
-            if(employee.getPaymentType() == "Horista") {
+            if(employee.getPaymentType().contains("Horista")) {
               Salaried salaried = new Salaried();
               String commissioned;
               Double commission = 0.0;
@@ -713,25 +741,29 @@ public class Menu {
               else {
                 payment_type = "Assalariado";
               }
+
               salaried.setAddress(employee.getAddress());
               salaried.setName(employee.getName());
               salaried.setPaymentWay(employee.getPaymentWay());
               salaried.setMonthSalary(month_salary);
               salaried.setCommission(commission);
               salaried.setPaymentType(payment_type);
-
+              salaried.setUniqueID(employee.getUniqueID());
+              if(employee.getPaymentSchedule() == 1) {
+                salaried.setPaymentSchedule(0);
+              }
               employees.remove(employee);
               employees.add(salaried);
             }
             else {
-              System.out.println("\nEsse funcionário já é horista!");
+              System.out.println("\nEsse funcionário já é assalariado!");
               System.out.println("Pressione Enter para continuar");
               input.nextLine();
             }
             break;
 
           case 2:
-            if(employee.getPaymentType() != "Horista") {
+            if(employee.getPaymentType().contains("Assalariado")) {
               Hourly hourly = new Hourly();
               String payment_type = "Horista";
 
@@ -744,12 +776,13 @@ public class Menu {
               hourly.setPaymentWay(employee.getPaymentWay());
               hourly.setHour_salary(hour_salary);
               hourly.setPaymentType(payment_type);
+              hourly.setUniqueID(employee.getUniqueID());
 
               employees.remove(employee);
               employees.add(hourly);
             }
             else {
-              System.out.println("\nEsse funcionário já é assalariado!");
+              System.out.println("\nEsse funcionário já é horista!");
               System.out.println("Pressione Enter para continuar");
               input.nextLine();
             }
@@ -792,7 +825,6 @@ public class Menu {
           if(syndicate.getEmployeeId() == employee.getUniqueID()) {
             System.out.println("[1] Mudar ID");
             System.out.println("[2] Sair do sindicato");
-            System.out.println("[3] Voltar");
 
             num = input.nextInt();
             input.nextLine();
@@ -813,8 +845,6 @@ public class Menu {
                 System.out.println("Pressione Enter para continuar");
                 input.nextLine();
                 break;
-              case 3:
-                break;
                 
               default:
                 break;
@@ -824,20 +854,15 @@ public class Menu {
 
         if(flag) {
           System.out.println("[1] Entrar no sindicato");
-          System.out.println("[2] Voltar");
           num = input.nextInt();
           input.nextLine();
 
           switch (num) {
             case 1:
               isSyndicate(employee.getUniqueID(), false);
-
               System.out.println("O funcionário "+ employee.getName() +" entrou do sindicato.");
               System.out.println("Pressione Enter para continuar");
               input.nextLine();
-              break;
-
-            case 2:
               break;
           
             default:
@@ -880,14 +905,11 @@ public class Menu {
         int paymentSchedule = input.nextInt();
         input.nextLine();
 
-        employee.setPaymentSchedule(paymentSchedule);
+        employee.setPaymentSchedule(paymentSchedule-1);
 
         System.out.println("\nAgenda alterada com sucesso.");
         System.out.println("Pressione Enter para continuar");
         input.nextLine();
-        break;
-
-      case 7:
         break;
 
       default:
@@ -901,5 +923,34 @@ public class Menu {
     System.out.println("Pagamentos Efetuados");
     System.out.println("Pressione Enter para continuar");
     input.nextLine();
+  }
+
+  
+  private void redoHandler() {
+    clear();
+
+    States previusState = history.redo();
+
+    if(previusState != null) {
+      employees = previusState.getEmployees();
+      syndicates = previusState.getSyndicates();
+      paymentSchedule = previusState.getPaymentSchedule();
+      employees_counter = previusState.getEmployees_counter();
+      syndicates_counter = previusState.getSyndicates_counter();
+    }
+  }
+
+  private void undoHandler() {
+    clear();
+
+    States nextState = history.undo();
+    
+    if(nextState != null) {
+      employees = nextState.getEmployees();
+      syndicates = nextState.getSyndicates();
+      paymentSchedule = nextState.getPaymentSchedule();
+      employees_counter = nextState.getEmployees_counter();
+      syndicates_counter = nextState.getSyndicates_counter();
+    }
   }
 }

@@ -9,16 +9,15 @@ public class Payroll {
   public static void verifyPayment(LinkedList<Employee> employees, LinkedList<Syndicate> syndicates, PaymentSchedule schedules){
     LocalDate today = LocalDate.now();
     Calendar calendar = Calendar.getInstance();
+    int i = 0;
 
     for (String schedule : schedules.getSchedules()) {
-      int i = 0;
-
       if(schedule.contains("semanal")) {
         String[] scheduleParts = schedule.split(" ");
         int paymentWeek = Integer.parseInt(scheduleParts[1]);
         int week = calendar.get(Calendar.WEEK_OF_MONTH);
 
-        if(schedule.contains(today.getDayOfWeek().name())) {
+        if(schedule.contains(today.getDayOfWeek().name().toUpperCase())) {
           for (Employee employee : employees) {
             if(employee.getPaymentSchedule() == i) {
               if(employee.getPaymentType() == "Horista") {
@@ -29,8 +28,7 @@ public class Payroll {
 
                 System.out.println("Salário: "+ salary + "\n");
               }
-              else
-              {
+              else {
                 Salaried salaried = (Salaried)employee;
                 salaried.paymentDefault();
 
@@ -66,35 +64,36 @@ public class Payroll {
         
         if(flag || schedule.contains(Integer.toString(today.getDayOfMonth()))) {
           for (Employee employee : employees) {
-            if(employee.getPaymentType() == "Horista") {
-              Hourly hourly = (Hourly)employee;
-              hourly.paymentDefault();
+            if(employee.getPaymentSchedule() == i) {
+              if(employee.getPaymentType() == "Horista") {
+                Hourly hourly = (Hourly)employee;
+                hourly.paymentDefault();
 
-              Double salary = calculateHourlySalary(hourly, syndicates);
+                Double salary = calculateHourlySalary(hourly, syndicates);
 
-              System.out.println("Salário: "+ salary + "\n");
-            }
-            else
-            {
-              Salaried salaried = (Salaried)employee;
-              salaried.paymentDefault();
+                System.out.println("Salário: "+ salary + "\n");
+              }
+              else {
+                Salaried salaried = (Salaried)employee;
+                salaried.paymentDefault();
 
-              Double salary = salaried.getMonthSalary();
-              salary = salary - calculateSyndicateFee(syndicates, employee);
-              
-              if(employee.getPaymentType() == "Assalariado comissionado") {                
-                if(week % 2 == 0) {
-                  salary = salary - (salaried.getMonthSalary()/2);
-                  for(Sale sale : salaried.getSales()) {
-                    if(sale.getFlag()) {
-                      salary = salary + (salaried.getCommission()/100) * sale.getPrice();
-                      sale.setFlag(false);
+                Double salary = salaried.getMonthSalary();
+                salary = salary - calculateSyndicateFee(syndicates, employee);
+                
+                if(employee.getPaymentType() == "Assalariado comissionado") {                
+                  if(week % 2 == 0) {
+                    salary = salary - (salaried.getMonthSalary()/2);
+                    for(Sale sale : salaried.getSales()) {
+                      if(sale.getFlag()) {
+                        salary = salary + (salaried.getCommission()/100) * sale.getPrice();
+                        sale.setFlag(false);
+                      }
                     }
                   }
                 }
-              }
 
-              System.out.println("Salário: "+ salary + "\n");
+                System.out.println("Salário: "+ salary + "\n");
+              }
             }
           }
         }
@@ -102,7 +101,6 @@ public class Payroll {
 
       i = i + 1;
     }
-
   }
 
   private static Double calculateHourlySalary(Hourly hourly, LinkedList<Syndicate> syndicates) {
