@@ -724,7 +724,7 @@ public class Menu {
               employees.add(salaried);
             }
             else {
-              System.out.println("Esse funcionário já é horista!");
+              System.out.println("\nEsse funcionário já é horista!");
               System.out.println("Pressione Enter para continuar");
               input.nextLine();
             }
@@ -749,7 +749,7 @@ public class Menu {
               employees.add(hourly);
             }
             else {
-              System.out.println("Esse funcionário já é assalariado!");
+              System.out.println("\nEsse funcionário já é assalariado!");
               System.out.println("Pressione Enter para continuar");
               input.nextLine();
             }
@@ -809,7 +809,7 @@ public class Menu {
 
               case 2:
                 syndicates.remove(syndicate);
-                System.out.println("O funcionário "+ employee.getName() +" saiu do sindicato.");
+                System.out.println("\nO funcionário "+ employee.getName() +" saiu do sindicato.");
                 System.out.println("Pressione Enter para continuar");
                 input.nextLine();
                 break;
@@ -847,7 +847,7 @@ public class Menu {
         break;
 
       case 6:
-        System.out.println("Legenda:\n$ = último dia útil\nSemanal 2 sexta");
+        System.out.println("\nLegenda:\n$ = último dia útil\n");
         System.out.println("Selecione uma nova agenda: ");
         String[] weekDays = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY","FRIDAY"};
         String[] portugueseWeekDays = {"Segunda", "Terça", "Quarta", "Quinta","Sexta"};
@@ -882,7 +882,7 @@ public class Menu {
 
         employee.setPaymentSchedule(paymentSchedule);
 
-        System.out.println("Agenda alterada com sucesso.");
+        System.out.println("\nAgenda alterada com sucesso.");
         System.out.println("Pressione Enter para continuar");
         input.nextLine();
         break;

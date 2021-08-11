@@ -32,6 +32,7 @@ public class Payroll {
               else
               {
                 Salaried salaried = (Salaried)employee;
+                salaried.paymentDefault();
 
                 Double salary = salaried.getMonthSalary() * (0.25 * paymentWeek);
                 salary = salary - calculateSyndicateFee(syndicates, employee);
@@ -76,14 +77,14 @@ public class Payroll {
             else
             {
               Salaried salaried = (Salaried)employee;
+              salaried.paymentDefault();
 
               Double salary = salaried.getMonthSalary();
               salary = salary - calculateSyndicateFee(syndicates, employee);
               
-              if(employee.getPaymentType() == "Assalariado comissionado") {
-                salary = salary - salaried.getMonthSalary()/2;
-                
+              if(employee.getPaymentType() == "Assalariado comissionado") {                
                 if(week % 2 == 0) {
+                  salary = salary - (salaried.getMonthSalary()/2);
                   for(Sale sale : salaried.getSales()) {
                     if(sale.getFlag()) {
                       salary = salary + (salaried.getCommission()/100) * sale.getPrice();
@@ -119,8 +120,8 @@ public class Payroll {
 
     for(Syndicate syndicate : syndicates) {
       if(syndicate.getEmployeeId() == employee.getUniqueID()) {
-        fee = fee - syndicate.getSyndicate_fee();
-        fee = fee - syndicate.getService_fee();
+        fee = fee + syndicate.getSyndicate_fee();
+        fee = fee + syndicate.getService_fee();
         break;
       }
     }
