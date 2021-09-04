@@ -249,7 +249,7 @@ public class ChangeData {
 
             for (String string : weekDays) {
               if(schedule.contains(string)) {
-                String dayName = DayOfWeek.of(i).name();
+                String dayName = DayOfWeek.of(i+1).name();
                 printAux.replaceAll(dayName, portugueseWeekDays[i]);
                 break;
               }

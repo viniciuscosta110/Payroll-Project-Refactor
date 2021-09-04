@@ -65,7 +65,8 @@ public class Menu {
             break;
 
           case 3:
-            listEmployees();
+            ListEmployees le = new ListEmployees();
+            le.listAllEmployees(employees);
             clear();
             stateFlag = false;
             break;
@@ -179,31 +180,6 @@ public class Menu {
     }
 
     paymentSchedule.setSchedules(newOption);
-  }
-
-  private void listEmployees() {
-    System.out.println("Lista de Funcionários\n");
-
-    if(employees.size() > 0) {
-      for (Employee employee : employees) {
-        if(employee.getPaymentType() == "Assalariado" || employee.getPaymentType() == "Assalariado comissionado") {
-          Salaried aux = (Salaried) employee;
-          System.out.println(aux.printEmployee());
-        }
-        else if(employee.getPaymentType() == "Horista") {
-          Hourly aux = (Hourly) employee;
-          System.out.println(aux.printEmployee());
-        }
-      }
-      
-      System.out.println("\nPressione Enter para continuar");
-      input.nextLine();
-    }
-    else {
-      System.out.println("\nLista Vazia\n");
-      System.out.println("\nPressione Enter para continuar");
-      input.nextLine();
-    }
   }
 
   private void addTimeCard() {
