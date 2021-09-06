@@ -7,22 +7,22 @@ public class Salaried extends Employee
   
   public void setMonthSalary(Double monthSalary) 
   {
-      this.monthSalary = monthSalary;
+    this.monthSalary = monthSalary;
   }
 
   public Double getMonthSalary() 
   {
-      return monthSalary;
+    return monthSalary;
   }
 
   public void setCommission(Double commission)
   {
-      this.commission = commission;
+    this.commission = commission;
   }
 
   public Double getCommission() 
   {
-      return commission;
+    return commission;
   }
 
   public void paymentDefault()
@@ -34,12 +34,12 @@ public class Salaried extends Employee
 
   public String printEmployee ()
   {
-      return "\nNome: " + this.name +
-      "\nEndereço: " + this.address +
-      "\nTipo de pagamento: " + this.paymentType +
-      "\nVia de pagamento: " + this.paymentWay +
-      "\nSalário por mês: " + this.monthSalary +
-      "\nComissão (em %): " + this.commission + "\n" +
-      "\nID: " + this.uniqueID;
+    return "\nNome: " + this.name +
+    "\nEndereço: " + this.address +
+    "\nTipo de pagamento: " + this.paymentType +
+    "\nVia de pagamento: " + this.paymentWay +
+    "\nSalário por mês: " + this.monthSalary +
+    "\nComissão (em %): " + this.commission + "\n" +
+    "\nID: " + this.uniqueID;
   }
 }
