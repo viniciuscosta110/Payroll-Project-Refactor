@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import Classes.*;
 
-public class AddNewSchedule {
+public class ScheduleFunctions {
   Scanner input = new Scanner(System.in);
 
   public void newSchedule(PaymentSchedule paymentSchedule) {

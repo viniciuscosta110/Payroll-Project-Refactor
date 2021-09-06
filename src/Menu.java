@@ -65,19 +65,21 @@ public class Menu {
             break;
 
           case 3:
-            ListEmployees le = new ListEmployees();
-            le.listAllEmployees(employees);
+            ListEmployees lie = new ListEmployees();
+            lie.listAllEmployees(employees);
             clear();
             stateFlag = false;
             break;
 
           case 4:
-            addTimeCard();
+            TimeCardFunctions ticf = new TimeCardFunctions();
+            ticf.addTimeCard(employees);
             clear();
             break;
 
           case 5:
-            addSale();
+            SaleFunctions saf = new SaleFunctions();
+            saf.addSale(employees);
             clear();
             break;
 
@@ -98,7 +100,8 @@ public class Menu {
             break;
           
           case 9:
-            createNewSchedule();
+            ScheduleFunctions scf = new ScheduleFunctions();
+            scf.newSchedule(paymentSchedule);
             clear();
             break;
 
@@ -134,176 +137,6 @@ public class Menu {
         System.out.println("Digite uma opção válida.\n");
       }
     }
-  }
-
-  private void createNewSchedule() {
-    String newOption = "";
-    String[] weekDays = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY","FRIDAY"};
-    int select;
-
-    System.out.println("Escolha uma das opções: ");
-    System.out.println("[1] Semanal");
-    System.out.println("[2] Mensal");
-    select = input.nextInt();
-    input.nextLine();
-    
-    switch (select) {
-      case 1:
-        newOption = "semanal";
-
-        System.out.println("Indique de quantas em quantas semanas ocorre o pagamento: ");
-        select = input.nextInt();
-        input.nextLine();
-
-        newOption = newOption + " " + Integer.toString(select);
-
-        System.out.println("\nSegunda[1] Terça[2] Quarta[3] Quinta[4] Sexta[5]");
-        System.out.println("Selecione o dia da semana do pagamento: ");
-        select = input.nextInt();
-        input.nextLine();
-
-        newOption = newOption + " " + weekDays[select-1];
-        break;
-
-      case 2:
-        newOption = "mensal";
-        
-        System.out.println("Digite o dia do pagamento: ");
-        select = input.nextInt();
-        input.nextLine();
-
-        newOption = newOption + " " + Integer.toString(select);
-        break;
-
-      default:
-        break;
-    }
-
-    paymentSchedule.setSchedules(newOption);
-  }
-
-  private void addTimeCard() {
-    Hourly employee = new Hourly();
-    TimeCard timecard = new TimeCard();
-
-    int arrive_time;
-    int departure_time;
-    int uniqueID;
-    int worked_day_time;
-    String date;
-
-    System.out.println("Insira o ID do funcionário\n\n");
-    uniqueID = input.nextInt();
-    input.nextLine();
-
-    Boolean flag = true;
-    Boolean hourly = true;
-
-    for (Employee employee2 : employees) {
-      if(employee2.getUniqueID() == uniqueID) {
-        if(employee2.getPaymentType() == "Horista") {
-          flag = false;
-          hourly = false;
-        }
-      }
-    }
-
-    if(flag) {
-      if(hourly) {
-        System.out.println("\nEsse funcionário não é horista!\n");
-        System.out.println("\nPressione Enter para continuar");
-        input.nextLine();
-      }
-      else {
-        System.out.println("\nEsse funcionário não está cadastrado!\n");
-        System.out.println("\nPressione Enter para continuar");
-        input.nextLine();
-      }
-      
-      return;
-    }
-
-    System.out.println("Data: (DD/MM/AA)");
-    date = input.nextLine();
-
-    System.out.println("Horário de entrada: (24h)");
-    arrive_time = input.nextInt();
-    input.nextLine();
-
-    System.out.println("Horário de saida: (24h)");
-    departure_time = input.nextInt();
-    input.nextLine();
-
-    for (Employee employee2 : employees) {
-      if(employee2.getUniqueID() == uniqueID) {
-        employee = (Hourly)(employee2);
-        break;
-      }
-    }
-
-    worked_day_time = departure_time - arrive_time;
-
-    timecard = new TimeCard(arrive_time, departure_time, date);
-    timecard.setWorked_day_time(worked_day_time);
-
-    employee.setTimeCard(timecard);
-  }
-
-  private void addSale() {
-    int uniqueID;
-    Salaried employee = new Salaried();
-    String date;
-    Double price;
-    Sale sale = new Sale();
-
-    System.out.println("Insira o ID do funcionário\n\n");
-    uniqueID = input.nextInt();
-    input.nextLine();
-
-    Boolean flag = true;
-    Boolean salaried = true;
-
-    for (Employee employee2 : employees) {
-      if(employee2.getUniqueID() == uniqueID) {
-        if(employee2.getPaymentType() == "Assalariado" || employee2.getPaymentType() == "Assalariado comissionado") {
-          flag = false;
-          salaried = false;
-          employee = (Salaried) employee2;
-        }
-      }
-    }
-
-    if(flag) {
-      if(salaried) {
-        System.out.println("\nEsse funcionário não é Assalariado!\n");
-        System.out.println("\nPressione Enter para continuar");
-        input.nextLine();
-      }
-      else {
-        System.out.println("\nEsse funcionário não está cadastrado!\n");
-        System.out.println("\nPressione Enter para continuar");
-        input.nextLine();
-      }
-      
-      return;
-    }
-
-    System.out.print("\nData: ");
-    date = input.nextLine();
-
-    System.out.print("Preço: ");
-    price = input.nextDouble();
-
-    sale.setDate(date);
-    sale.setPrice(price);
-
-    employee.setSales(sale);
-
-    employee.getSales();
-
-    System.out.println("\nVenda cadastrada com sucesso!\n");
-    System.out.println("\nPressione Enter para continuar");
-    input.nextLine();
   }
 
   private void addFee() {

@@ -1,7 +1,6 @@
 package Functionalities;
 
 import java.util.Scanner;
-import java.time.DayOfWeek;
 import java.util.LinkedList;
 import Classes.*;
 
@@ -249,8 +248,7 @@ public class ChangeData {
 
             for (String string : weekDays) {
               if(schedule.contains(string)) {
-                String dayName = DayOfWeek.of(i+1).name();
-                printAux.replaceAll(dayName, portugueseWeekDays[i]);
+                printAux = printAux.replace(string, portugueseWeekDays[i]);
                 break;
               }
 

@@ -34,7 +34,6 @@ public class Hourly extends Employee {
   {
     timeCards.add(timecard);
     timeCards.peekLast().setWorked_week_time(timeCards);
-    getWorked_time();
   }
 
   public void paymentDefault()
