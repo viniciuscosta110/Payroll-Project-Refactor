@@ -1,3 +1,7 @@
-# Sistema de Folha de Pagamento
+# Refatoração do Sistema de Folha de Pagamento
 
-Projeto da disciplina Projeto de Software, com o objetivo de criar um sistema de folha de pagamento.
+## Code Smells encontrados:
+
+### Duplicação de código
+### Termos Longos
+
