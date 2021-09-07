@@ -59,16 +59,32 @@ public class Employee {
     return paymentWay;
   }
 
-  public Employee() {
-      this.uniqueID = 0;
-  }
-
   public void setSales(Sale sale) {
     this.sales.add(sale);
   }
 
   public ArrayList<Sale> getSales() {
     return sales;
+  }
+
+  public Employee() {
+    this.uniqueID = 0;
+}
+
+  public Employee(String name, String address, int uniqueID, int paymentSchedule, String paymentType, String paymentWay) {
+    this.name = name;
+    this.address = address;
+    this.uniqueID = uniqueID;
+    this.paymentSchedule = paymentSchedule;
+    this.paymentType = paymentType;
+    this.paymentWay = paymentWay;
+  }
+
+  public void paymentDefault()
+  {
+    System.out.println("ID do funcionário: "+ this.uniqueID);
+    System.out.println("Nome do funcionário: "+ this.name);
+    System.out.println("Método de envio: " + this.paymentWay);
   }
 
   public String printEmployee () {

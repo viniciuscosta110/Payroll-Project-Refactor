@@ -4,11 +4,12 @@ import static Functionalities.HelpFunctions.*;
 import java.util.*;
 import Classes.*;
 import Functionalities.*;
+import Functionalities.AddEmployees.*;
 
 public class Menu {
 
   Scanner input = new Scanner(System.in);
-  int employees_counter = 0;
+  int employees_counter = 1;
   int syndicates_counter = -1;
   PaymentSchedule paymentSchedule = new PaymentSchedule();
   LinkedList<Employee> employees = new LinkedList<>();
@@ -51,7 +52,7 @@ public class Menu {
           case 1:
             AddEmployee add = new AddEmployee();
             add.newEmployee(syndicates, employees, syndicates_counter, employees_counter);
-
+            
             employees_counter = add.getEmployees_counter();
             syndicates_counter = add.getSyndicates_counter();
 

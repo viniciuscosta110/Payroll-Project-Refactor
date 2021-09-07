@@ -136,7 +136,7 @@ public class ChangeData {
               hourly.setAddress(employee.getAddress());
               hourly.setName(employee.getName());
               hourly.setPaymentWay(employee.getPaymentWay());
-              hourly.setHour_salary(hour_salary);
+              hourly.setHourSalary(hour_salary);
               hourly.setPaymentType(payment_type);
               hourly.setUniqueID(employee.getUniqueID());
 

@@ -1,4 +1,4 @@
-package Functionalities;
+package Functionalities.AddEmployees;
 
 import static Functionalities.HelpFunctions.*;
 
@@ -6,34 +6,32 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import Classes.*;
 
-public class AddEmployee {
+public class AddEmployee{
   Scanner input = new Scanner(System.in);
   int employees_counter = 0;
-  int syndicates_counter = 0;
+  int syndicates_counter = -1;
   LinkedList<Syndicate> syndicates = new LinkedList<>();
-  LinkedList<Employee> employees = new LinkedList<>();
-
-  public LinkedList<Employee> getEmployees() {
-    return employees;
-  }
+  AddController addController;
 
   public int getEmployees_counter() {
     return employees_counter;
-  }
-
-  public LinkedList<Syndicate> getSyndicates() {
-    return syndicates;
   }
 
   public int getSyndicates_counter() {
     return syndicates_counter;
   }
 
+  public LinkedList<Syndicate> getSyndicates() {
+    return this.syndicates;
+  }
+
   public void newEmployee(LinkedList<Syndicate> syndicates, LinkedList<Employee> employees, int syndicates_counter, int employees_counter) {
     this.employees_counter = employees_counter;
     this.syndicates_counter = syndicates_counter;
     this.syndicates = syndicates;
-    this.employees = employees;
+
+    AddSalaried AddS = new AddSalaried(syndicates);
+    AddHourly AddH = new AddHourly(syndicates);
 
     while(true) {
       System.out.println("Selecione uma opção para acessá-la.\n");
@@ -50,13 +48,13 @@ public class AddEmployee {
 
         switch (key) {
           case 1:
-            addHourly();
-            clear();
+            employees.add(AddH.add());
+            syndicates = AddH.getSyndicates();
             break;
 
           case 2:
-            addSalaried();
-            clear();
+            employees.add(AddS.add());
+            syndicates = AddS.getSyndicates();
             break;
 
           default:
@@ -68,76 +66,19 @@ public class AddEmployee {
       else {
         System.out.println("Digite uma opção válida.\n");
       }
-    }
-  }
+      
 
-  private void addHourly() {
-    Hourly employee = new Hourly();
-
-    String payment_type = "Horista";
-    String hour_salary = "";
-
-    inCommon(employee);
-
-    System.out.print("\nSalário por hora: ");
-    hour_salary = input.nextLine();
-
-    employee.setHour_salary(Double.parseDouble(hour_salary));
-    employee.setPaymentType(payment_type);
-    employee.setPaymentSchedule(1);
-
-    employees.add(employee);
-
-    System.out.println("\nFuncionário cadastrado!\n");
-    System.out.println("\nPressione Enter para continuar");
-    input.nextLine();
-  }
-
-  private void addSalaried() {
-    Salaried employee = new Salaried();
-
-    String payment_type = "";
-    String commissioned;
-    String month_salary;
-    Double commission = 0.0;
-
-    inCommon(employee);
-
-    System.out.print("\nSalário Mensal: ");
-    month_salary = input.nextLine();
-
-    System.out.print("Comissionado (Digite Sim ou Nao): ");
-    commissioned = input.nextLine();
-
-    if(commissioned.toLowerCase().equals("sim")) {
-      System.out.print("Comissão (Digite um número para representar a porcentagem): ");
-      commission = input.nextDouble();
+      System.out.println("\nFuncionário cadastrado!\n");
+      System.out.println("\nPressione Enter para continuar");
       input.nextLine();
-
-      payment_type = "Assalariado comissionado";
-      employee.setPaymentSchedule(2);
     }
-    else {
-      payment_type = "Assalariado";
-      employee.setPaymentSchedule(0);
-    }
-    
-    employee.setMonthSalary(Double.parseDouble(month_salary));
-    employee.setCommission(commission);
-    employee.setPaymentType(payment_type);
-    
-    employees.add(employee);
-
-    System.out.println("\nFuncionário cadastrado!\n");
-    System.out.println("\nPressione Enter para continuar");
-    input.nextLine();
   }
 
-  private void inCommon(Employee employee) {
+  protected void inCommon(Employee employee, LinkedList<Syndicate> syndicates) {
     String name;
     String address = "";
     int uniqueID = employees_counter + 1;
-    employees_counter++;
+    employees_counter = uniqueID;
 
     System.out.println("Insira os dados do funcionário\n\n");
     
@@ -170,14 +111,14 @@ public class AddEmployee {
         break;
     }
 
-    isSyndicate(uniqueID, true, this.syndicates_counter, this.syndicates);
+    isSyndicate(uniqueID, true, syndicates);
 
     employee.setAddress(address);
     employee.setName(name);
     employee.setUniqueID(uniqueID);
   }
 
-  public void isSyndicate(int uniqueID, Boolean flag, int syndicates_counter, LinkedList<Syndicate> syndicates) {
+  public void isSyndicate(int uniqueID, Boolean flag, LinkedList<Syndicate> syndicates) {
     Syndicate syndicate = new Syndicate();
     String inSyndicate;
     Double syndicate_fee = 0.0;
@@ -195,7 +136,7 @@ public class AddEmployee {
     {
       int syndicate_id = syndicates_counter + 1;
 
-      syndicates_counter++;
+      this.syndicates_counter++;
 
       System.out.print("Taxa sindical: ");
       syndicate_fee = input.nextDouble();

@@ -4,16 +4,16 @@ import java.util.LinkedList;
 
 public class Hourly extends Employee {
   LinkedList<TimeCard> timeCards = new LinkedList<>();
-  protected Double hour_salary;
+  protected Double hourSalary;
 
-  public void setHour_salary(Double hour_salary) 
+  public void setHourSalary(Double hourSalary) 
   {
-      this.hour_salary = hour_salary;
+      this.hourSalary = hourSalary;
   }
 
-  public Double getHour_salary() 
+  public Double getHourSalary() 
   {
-      return hour_salary;
+      return hourSalary;
   }
 
   public void getWorked_time()
@@ -43,13 +43,22 @@ public class Hourly extends Employee {
     System.out.println("Método de envio: " + this.paymentWay);
   }
 
+  public Hourly() {
+    
+  }
+
+  public Hourly(String name, String address, int uniqueID, int paymentSchedule, String paymentType, String paymentWay, Double hourSalary) {
+    super(name, address, uniqueID, paymentSchedule, paymentType, paymentWay);
+    this.hourSalary = hourSalary;
+  }
+
   public String printEmployee ()
   {
       return "\nNome: " + this.name +
       "\nEndereço: " + this.address +
       "\nTipo de pagamento: " + this.paymentType +
       "\nVia de pagamento: " + this.paymentWay +
-      "\nSalário por hora: " + this.hour_salary +
+      "\nSalário por hora: " + this.hourSalary +
       "\nID: " + this.uniqueID + "\n";
   }
 }

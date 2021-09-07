@@ -25,11 +25,14 @@ public class Salaried extends Employee
     return commission;
   }
 
-  public void paymentDefault()
-  {
-    System.out.println("ID do funcionário: "+ this.uniqueID);
-    System.out.println("Nome do funcionário: "+ this.name);
-    System.out.println("Método de envio: " + this.paymentWay);
+  public Salaried() {
+    
+  }
+
+  public Salaried(String name, String address, int uniqueID, int paymentSchedule, String paymentType, String paymentWay, Double monthSalary, Double commission) {
+    super(name, address, uniqueID, paymentSchedule, paymentType, paymentWay);
+    this.monthSalary = monthSalary;
+    this.commission = commission;
   }
 
   public String printEmployee ()

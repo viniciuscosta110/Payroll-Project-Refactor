@@ -12,7 +12,6 @@ public class RemoveEmployee {
 
   public void deleteEmployee(LinkedList<Employee> employees) {
     int id;
-    boolean flag = true;
 
     System.out.println("Digite o ID do funcionário que deseja remover.");
     System.out.print("ID: ");
@@ -20,21 +19,18 @@ public class RemoveEmployee {
     id = input.nextInt();
     input.nextLine();
 
-    for (Employee employee : employees) {
-      if(employee.getUniqueID() == id) {
-        flag = false;
-        employees.remove(employee);
+    Employee employee = findEmployee(employees, id);
+    
+    if(employee.getUniqueID() != 0) {
+      employees.remove(employee);
 
-        System.out.println("\nFuncionário removido.\n");
-        System.out.println("\nPressione Enter para continuar.\n");
-        input.nextLine();
-        
-        clear();
-        break;
-      }
+      System.out.println("\nFuncionário removido.\n");
+      System.out.println("\nPressione Enter para continuar.\n");
+      input.nextLine();
+      
+      clear();
     }
-
-    if(flag) {
+    else {
       System.out.println("\nEsse funcionário não está cadastrado!\n");
       System.out.println("\nPressione Enter para continuar");
       input.nextLine();
