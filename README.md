@@ -3,7 +3,7 @@
 ## Code Smells encontrados:
 
 - *Duplicate code*
-    - Citarei a localização de uma das duplicações no código antigo
+    - Citarei a localização de algumas das duplicações no código antigo
         - Main 232-261 / 316-345 (Movido para AddEmployee - inCommon)
         - Hourly 40-45 / Salaried 28-33 (Foi movido para Employee)
 
