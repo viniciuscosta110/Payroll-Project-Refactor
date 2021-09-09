@@ -10,6 +10,6 @@ public class AddController {
   }
 
   public Employee execute() {
-    return slot.add();
+    return this.slot.add();
   }
 }

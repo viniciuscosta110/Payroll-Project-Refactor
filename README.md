@@ -10,6 +10,7 @@
 - *Long Term*
 - *Ifs usados sem necessidade*
     - Uso excessivo de ifs/switches
+    - Alguns ifs foram tirados, porém não todos. Foi implementado um tipo de Command em AddEmployees, utilizando hierarquia e polimorfismo
 - *Generative Speculation*
     - Construtures e métodos não utilizados serão descartados
 - *Outros*

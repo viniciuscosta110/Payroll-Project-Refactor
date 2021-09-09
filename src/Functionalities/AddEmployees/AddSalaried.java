@@ -9,6 +9,12 @@ import Classes.*;
 public class AddSalaried implements Command {
   Scanner input = new Scanner(System.in);
   LinkedList<Syndicate> syndicates;
+  int employees_counter = 0;
+  int syndicates_counter = -1;
+
+  public void setSyndicates(LinkedList<Syndicate> syndicates) {
+    this.syndicates = syndicates;
+  }
 
   public LinkedList<Syndicate> getSyndicates() {
     return syndicates;
@@ -24,7 +30,7 @@ public class AddSalaried implements Command {
     Double commission = 0.0;
 
     AddEmployee ae = new AddEmployee();
-    ae.inCommon(employee, syndicates);
+    ae.inCommon(employee, syndicates, employees_counter, syndicates_counter);
 
     String name = employee.getName();
     String address = employee.getAddress();
@@ -55,7 +61,9 @@ public class AddSalaried implements Command {
     return employee;
   }
 
-  public AddSalaried(LinkedList<Syndicate> syndicates) {
+  public AddSalaried(LinkedList<Syndicate> syndicates, int employees_counter, int syndicates_counter) {
     this.syndicates = syndicates;
+    this.employees_counter = employees_counter;
+    this.syndicates_counter = syndicates_counter;
   }
 }

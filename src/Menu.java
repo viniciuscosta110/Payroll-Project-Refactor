@@ -9,7 +9,7 @@ import Functionalities.AddEmployees.*;
 public class Menu {
 
   Scanner input = new Scanner(System.in);
-  int employees_counter = 1;
+  int employees_counter = 0;
   int syndicates_counter = -1;
   PaymentSchedule paymentSchedule = new PaymentSchedule();
   LinkedList<Employee> employees = new LinkedList<>();
@@ -85,7 +85,8 @@ public class Menu {
             break;
 
           case 6:
-            addFee();
+            AddFee af = new AddFee();
+            af.newFee(employees, syndicates);
             clear();
             break;
 
@@ -96,7 +97,11 @@ public class Menu {
             break;
 
           case 8:
-            rollPayment();
+            verifyPayment(employees, syndicates, paymentSchedule);
+
+            System.out.println("Pagamentos Efetuados");
+            System.out.println("Pressione Enter para continuar");
+            input.nextLine();
             clear();
             break;
           
@@ -138,42 +143,6 @@ public class Menu {
         System.out.println("Digite uma opção válida.\n");
       }
     }
-  }
-
-  private void addFee() {
-    int uniqueID;
-    Double service_fee;
-
-    System.out.println("\nInsira o ID do funcionário\n");
-    uniqueID = input.nextInt();
-    input.nextLine();
-
-    for (Syndicate syndicate : syndicates) {
-      if(syndicate.getEmployeeId() == uniqueID) {
-        System.out.println("\nDigite a taxa cobrada pelo serviço (R$): ");
-        service_fee = input.nextDouble();
-        input.nextLine();
-
-        syndicate.setService_fee(service_fee);;
-
-        for (Syndicate syndicate3 : syndicates) {
-          System.out.println(syndicate3.printSyndicate());
-        }
-
-        System.out.println("\nTaxa cadastrada com sucesso!\n");
-        System.out.println("\nPressione Enter para continuar");
-        input.nextLine();
-        break;
-      }
-    }
-  }
-
-  private void rollPayment() {
-    verifyPayment(employees, syndicates, paymentSchedule);
-
-    System.out.println("Pagamentos Efetuados");
-    System.out.println("Pressione Enter para continuar");
-    input.nextLine();
   }
 
   

@@ -26,12 +26,13 @@ public class AddEmployee{
   }
 
   public void newEmployee(LinkedList<Syndicate> syndicates, LinkedList<Employee> employees, int syndicates_counter, int employees_counter) {
-    this.employees_counter = employees_counter;
-    this.syndicates_counter = syndicates_counter;
+    this.employees_counter = employees_counter + 1;
+    this.syndicates_counter = syndicates_counter + 1;
     this.syndicates = syndicates;
 
-    AddSalaried AddS = new AddSalaried(syndicates);
-    AddHourly AddH = new AddHourly(syndicates);
+    AddSalaried AddS = new AddSalaried(syndicates, this.employees_counter, this.syndicates_counter);
+    AddHourly AddH = new AddHourly(syndicates, this.employees_counter, this.syndicates_counter);
+    AddController slot = new AddController();
 
     while(true) {
       System.out.println("Selecione uma opção para acessá-la.\n");
@@ -48,13 +49,11 @@ public class AddEmployee{
 
         switch (key) {
           case 1:
-            employees.add(AddH.add());
-            syndicates = AddH.getSyndicates();
+            slot.setSlot(AddH);
             break;
 
           case 2:
-            employees.add(AddS.add());
-            syndicates = AddS.getSyndicates();
+            slot.setSlot(AddS);
             break;
 
           default:
@@ -66,19 +65,18 @@ public class AddEmployee{
       else {
         System.out.println("Digite uma opção válida.\n");
       }
-      
-
-      System.out.println("\nFuncionário cadastrado!\n");
-      System.out.println("\nPressione Enter para continuar");
-      input.nextLine();
     }
+
+    employees.add(slot.execute());
+
+    System.out.println("\nFuncionário cadastrado!\n");
+    System.out.println("\nPressione Enter para continuar");
+    input.nextLine();
   }
 
-  protected void inCommon(Employee employee, LinkedList<Syndicate> syndicates) {
+  protected void inCommon(Employee employee, LinkedList<Syndicate> syndicates, int employees_counter, int syndicates_counter) {
     String name;
     String address = "";
-    int uniqueID = employees_counter + 1;
-    employees_counter = uniqueID;
 
     System.out.println("Insira os dados do funcionário\n\n");
     
@@ -111,14 +109,14 @@ public class AddEmployee{
         break;
     }
 
-    isSyndicate(uniqueID, true, syndicates);
+    isSyndicate(employees_counter, true, syndicates, syndicates_counter);
 
     employee.setAddress(address);
     employee.setName(name);
-    employee.setUniqueID(uniqueID);
+    employee.setUniqueID(employees_counter);
   }
 
-  public void isSyndicate(int uniqueID, Boolean flag, LinkedList<Syndicate> syndicates) {
+  public void isSyndicate(int uniqueID, Boolean flag, LinkedList<Syndicate> syndicates, int syndicates_counter) {
     Syndicate syndicate = new Syndicate();
     String inSyndicate;
     Double syndicate_fee = 0.0;
@@ -134,9 +132,7 @@ public class AddEmployee{
 
     if(inSyndicate.toLowerCase().equals("sim"))
     {
-      int syndicate_id = syndicates_counter + 1;
-
-      this.syndicates_counter++;
+      int syndicate_id = syndicates_counter;
 
       System.out.print("Taxa sindical: ");
       syndicate_fee = input.nextDouble();

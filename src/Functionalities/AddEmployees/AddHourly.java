@@ -8,6 +8,8 @@ import Classes.*;
 public class AddHourly implements Command{
   Scanner input = new Scanner(System.in);
   LinkedList<Syndicate> syndicates = new LinkedList<> ();
+  int employees_counter = 0;
+  int syndicates_counter = -1;
 
   public LinkedList<Syndicate> getSyndicates() {
     return syndicates;
@@ -20,7 +22,7 @@ public class AddHourly implements Command{
     int paymentSchedule = 1;
 
     AddEmployee ae = new AddEmployee();
-    ae.inCommon(employee, syndicates);
+    ae.inCommon(employee, syndicates, employees_counter, syndicates_counter);
 
     String name = employee.getName();
     String address = employee.getAddress();
@@ -35,7 +37,9 @@ public class AddHourly implements Command{
     return employee;
   }
 
-  public AddHourly(LinkedList<Syndicate> syndicates) {
+  public AddHourly(LinkedList<Syndicate> syndicates, int employees_counter, int syndicates_counter) {
     this.syndicates = syndicates;
+    this.employees_counter = employees_counter;
+    this.syndicates_counter = syndicates_counter;
   }
 }

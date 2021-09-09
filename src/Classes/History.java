@@ -7,11 +7,15 @@ public class History {
   int head = 0;
   Scanner input = new Scanner(System.in);
 
+  public int getHead() {
+    return head;
+  }
+
   public void setStates(States state) {
     int i = 0;
 
     for (States state2 : states) {
-      if(i > head) {
+      if(i > this.head) {
         states.remove(state2);
       }
 
