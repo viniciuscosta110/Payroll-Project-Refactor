@@ -98,11 +98,6 @@ public class Menu {
 
           case 8:
             verifyPayment(employees, syndicates, paymentSchedule);
-
-            System.out.println("Pagamentos Efetuados");
-            System.out.println("Pressione Enter para continuar");
-            input.nextLine();
-            clear();
             break;
           
           case 9:

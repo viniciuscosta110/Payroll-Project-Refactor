@@ -104,7 +104,6 @@ public class Payroll {
   }
 
   private static Double calculateHourlySalary(Hourly hourly, LinkedList<Syndicate> syndicates) {
-
     Double exceededTimePayment = (hourly.getHourSalary() * 1.5) * hourly.getTimeCards().getLast().getExceeded_time();
     Double salary = hourly.getTimeCards().getLast().getWorked_week_time() * hourly.getHourSalary() + exceededTimePayment;
 
@@ -126,6 +125,4 @@ public class Payroll {
 
     return fee;
   }
-
-
 }

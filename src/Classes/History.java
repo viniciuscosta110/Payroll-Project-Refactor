@@ -4,7 +4,7 @@ import java.util.*;
 
 public class History {
   ArrayList<States> states = new ArrayList<>();
-  int head = 0;
+  int head = 1;
   Scanner input = new Scanner(System.in);
 
   public int getHead() {
