@@ -11,7 +11,6 @@ public class AddEmployee{
   int employees_counter = 0;
   int syndicates_counter = -1;
   LinkedList<Syndicate> syndicates = new LinkedList<>();
-  AddController addController;
 
   public int getEmployees_counter() {
     return employees_counter;

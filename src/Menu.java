@@ -147,7 +147,6 @@ public class Menu {
     }
   }
 
-  
   private void redoHandler() {
     clear();
 
