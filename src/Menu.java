@@ -1,13 +1,16 @@
 import static Classes.Payroll.*;
 import static Functionalities.HelpFunctions.*;
+import static Functionalities.ListEmployees.*;
 
 import java.util.*;
 import Classes.*;
+import Classes.History.*;
 import Functionalities.*;
 import Functionalities.AddEmployees.*;
 
 public class Menu {
 
+  HistoryHandlerInterface historyHandler = new NullHistoryHandler();
   Scanner input = new Scanner(System.in);
   int employees_counter = 0;
   int syndicates_counter = -1;
@@ -66,8 +69,8 @@ public class Menu {
             break;
 
           case 3:
-            ListEmployees lie = new ListEmployees();
-            lie.listAllEmployees(employees);
+            listAllEmployees(employees);
+            input.nextLine();
             clear();
             stateFlag = false;
             break;
@@ -98,9 +101,6 @@ public class Menu {
 
           case 8:
             verifyPayment(employees, syndicates, paymentSchedule);
-
-            System.out.println("Pagamentos Efetuados");
-            System.out.println("Pressione Enter para continuar");
             input.nextLine();
             clear();
             break;
@@ -113,12 +113,14 @@ public class Menu {
 
           case 10:
             undoHandler();
+            input.nextLine();
             clear();
             stateFlag = false;
             break;
 
           case 11:
             redoHandler();
+            input.nextLine();
             clear();
             stateFlag = false;
             break;
@@ -149,28 +151,38 @@ public class Menu {
   private void redoHandler() {
     clear();
 
-    States previusState = history.redo();
+    if(history.getHead() > history.getStates().size() - 1) {
+      int head = history.getHead();
 
-    if(previusState != null) {
-      employees = previusState.getEmployees();
-      syndicates = previusState.getSyndicates();
-      paymentSchedule = previusState.getPaymentSchedule();
-      employees_counter = previusState.getEmployees_counter();
-      syndicates_counter = previusState.getSyndicates_counter();
+      historyHandler = new HistoryHandler(head, history.getStates());
+      history.setHead(head+1);
     }
+
+    States previusState = historyHandler.redo();
+
+    employees = previusState.getEmployees();
+    syndicates = previusState.getSyndicates();
+    paymentSchedule = previusState.getPaymentSchedule();
+    employees_counter = previusState.getEmployees_counter();
+    syndicates_counter = previusState.getSyndicates_counter();
   }
 
   private void undoHandler() {
     clear();
 
-    States nextState = history.undo();
-    
-    if(nextState != null) {
-      employees = nextState.getEmployees();
-      syndicates = nextState.getSyndicates();
-      paymentSchedule = nextState.getPaymentSchedule();
-      employees_counter = nextState.getEmployees_counter();
-      syndicates_counter = nextState.getSyndicates_counter();
+    if(history.getHead() > 0) {
+      int head = history.getHead();
+      
+      historyHandler = new HistoryHandler(head, history.getStates());
+      history.setHead(head-1);
     }
+
+    States nextState = historyHandler.undo();
+
+    employees = nextState.getEmployees();
+    syndicates = nextState.getSyndicates();
+    paymentSchedule = nextState.getPaymentSchedule();
+    employees_counter = nextState.getEmployees_counter();
+    syndicates_counter = nextState.getSyndicates_counter();
   }
 }

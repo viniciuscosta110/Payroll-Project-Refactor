@@ -101,6 +101,9 @@ public class Payroll {
 
       i = i + 1;
     }
+    
+    System.out.println("Pagamentos Efetuados");
+    System.out.println("Pressione Enter para continuar");
   }
 
   private static Double calculateHourlySalary(Hourly hourly, LinkedList<Syndicate> syndicates) {

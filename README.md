@@ -13,5 +13,6 @@
     - Alguns ifs foram tirados, porém não todos. Foi implementado um tipo de Command em AddEmployees, utilizando hierarquia e polimorfismo
 - *Generative Speculation*
     - Construtures e métodos não utilizados serão descartados
+    - Foi feito uma classe EmployeeCreator para facilitar a criação de um funcionário
 - *Outros*
     - Serão feitos construtores apropriados, para evitar o uso excessivo de funções nas classes

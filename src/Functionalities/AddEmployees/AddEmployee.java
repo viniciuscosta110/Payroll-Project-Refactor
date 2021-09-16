@@ -44,7 +44,7 @@ public class AddEmployee{
 
       int key = 0;
 
-      if(key_handler.charAt(0) >= '0' && key_handler.charAt(0) <= '3') {
+      if(key_handler.charAt(0) >= '1' && key_handler.charAt(0) <= '2') {
         key = key_handler.charAt(0) - '0';
 
         switch (key) {
