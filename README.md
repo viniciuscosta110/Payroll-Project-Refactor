@@ -12,7 +12,7 @@
     - Alguns ifs foram tirados, porém não todos. Foi implementado um tipo de Command em src/Funcionalities/AddEmployees, utilizando hierarquia e polimorfismo
 
 #### Antes
-```
+``` java
   private void addEmployee() {
     while(true) {
       System.out.println("Selecione uma opção para acessá-la.\n");
@@ -52,7 +52,7 @@
 ```
 
 #### Depois
-```
+``` java
 public void newEmployee(LinkedList<Syndicate> syndicates, LinkedList<Employee> employees, int syndicates_counter, int employees_counter) {
     this.employees_counter = employees_counter + 1;
     this.syndicates_counter = syndicates_counter + 1;
@@ -107,7 +107,7 @@ public void newEmployee(LinkedList<Syndicate> syndicates, LinkedList<Employee> e
     - Na pasta History, foi implementando um Introduce Null Object, usando polimorfismo e hierarquia, sendo utilizado no Menu
 
 #### Antes
-```
+``` java
 private void redoHandler() {
     clear();
 
@@ -138,7 +138,7 @@ private void redoHandler() {
 ```
 
 #### Depois
-```
+``` java
  private void redoHandler() {
     clear();
 
